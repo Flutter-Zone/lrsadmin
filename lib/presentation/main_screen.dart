@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
+import 'package:lrsadmin/routes.dart';
 import 'common/drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class MainScreenState extends State<MainScreen> {
             // top: 13.0,
             child: Icon(
               Ionicons.notifications_outline,
-              color: Theme.of(context).primaryColor,
+              color: colorPrimary,
               size: 30.0,
             ),
           ),
@@ -129,7 +130,7 @@ class MainScreenState extends State<MainScreen> {
                 "Lecturers",
                 Ionicons.people_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.lecturers),
             ),
             GestureDetector(
               child: buildCardItem(
