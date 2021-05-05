@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lrsadmin">
+    package="com.flutterzone.lrsadmin">
    <application
         android:label="lrsadmin"
         android:icon="@mipmap/ic_launcher">

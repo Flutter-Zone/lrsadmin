@@ -47,7 +47,7 @@ class DrawerBuilder extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Main Admin",
+                            "Administrator",
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.normal),
                           ),
@@ -60,27 +60,13 @@ class DrawerBuilder extends StatelessWidget {
                             height: 40.0,
                             width: 155.0,
                             child: Text(
-                              "South Africa",
+                              "Blankson Richmond",
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
                           ),
-                          // : Offstage(),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          // userStore != null
-                          //     ?
-                          Text(
-                            "+27247656959",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          // : Offstage(),
                         ],
                       ),
                     ),
@@ -103,12 +89,12 @@ class DrawerBuilder extends StatelessWidget {
               ListTile(
                 onTap: () {},
                 leading: Icon(
-                  Ionicons.people,
+                  Ionicons.people_outline,
                   size: 25.0,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
-                  "Items",
+                  "Lecturers",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -121,12 +107,12 @@ class DrawerBuilder extends StatelessWidget {
                   Navigator.of(context).pushNamed("/orderspage");
                 },
                 leading: Icon(
-                  Ionicons.people,
+                  Ionicons.book_outline,
                   size: 25.0,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
-                  "Orders",
+                  "Courses",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -135,12 +121,12 @@ class DrawerBuilder extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Ionicons.people,
+                  Ionicons.home_outline,
                   size: 25.0,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
-                  "Customers",
+                  "Faculties",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -153,12 +139,12 @@ class DrawerBuilder extends StatelessWidget {
                   Navigator.of(context).pushNamed("/add_store_page");
                 },
                 leading: Icon(
-                  Ionicons.settings,
+                  Ionicons.people_outline,
                   size: 25.0,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
-                  "Stores",
+                  "Students",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -167,12 +153,41 @@ class DrawerBuilder extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Ionicons.settings,
+                  Ionicons.newspaper_outline,
                   size: 25.0,
                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
-                  "Settings",
+                  "News",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(
+                  Ionicons.chatbox_ellipses_outline,
+                  size: 25.0,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  "Reviews",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Ionicons.chatbubble_ellipses_outline,
+                  size: 25.0,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  "News Comments",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,

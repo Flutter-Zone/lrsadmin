@@ -1,4 +1,4 @@
-package com.example.lrsadmin
+package com.flutterzone.lrsadmin
 
 import io.flutter.embedding.android.FlutterActivity
 

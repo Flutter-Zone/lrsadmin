@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:ionicons/ionicons.dart';
+import 'package:lrsadmin/constants/colors.dart';
 import 'common/drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -111,7 +112,7 @@ class MainScreenState extends State<MainScreen> {
                   height: 5.0,
                   width: MediaQuery.of(context).size.width / 1.5,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
+                    color: colorSecondary,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
@@ -125,16 +126,16 @@ class MainScreenState extends State<MainScreen> {
             GestureDetector(
               child: buildCardItem(
                 "1",
-                "Items",
-                Ionicons.accessibility,
+                "Lecturers",
+                Ionicons.people_outline,
               ),
               onTap: () {},
             ),
             GestureDetector(
               child: buildCardItem(
                 "2",
-                "Customers",
-                Ionicons.accessibility,
+                "Courses",
+                Ionicons.book_outline,
               ),
               onTap: () {},
             ),
@@ -146,16 +147,16 @@ class MainScreenState extends State<MainScreen> {
             GestureDetector(
               child: buildCardItem(
                 "1",
-                "Stores",
-                Ionicons.accessibility,
+                "Facilities",
+                Ionicons.home_outline,
               ),
               onTap: () {},
             ),
             GestureDetector(
               child: buildCardItem(
                 "2",
-                "Users",
-                Ionicons.accessibility,
+                "Students",
+                Ionicons.people_outline,
               ),
               onTap: () {},
             ),
@@ -167,16 +168,16 @@ class MainScreenState extends State<MainScreen> {
             GestureDetector(
               child: buildCardItem(
                 "1",
-                "Categories",
-                Ionicons.accessibility,
+                "News",
+                Ionicons.newspaper_outline,
               ),
               onTap: () {},
             ),
             GestureDetector(
               child: buildCardItem(
                 "0",
-                "Orders",
-                Ionicons.accessibility,
+                "Reviews",
+                Ionicons.chatbox_ellipses_outline,
               ),
               onTap: () {},
             ),
@@ -191,7 +192,7 @@ class MainScreenState extends State<MainScreen> {
       height: 90.0,
       width: (MediaQuery.of(context).size.width / 2.0) - 12.0,
       child: Card(
-        color: Colors.white,
+        color: white,
         elevation: 5.0,
         child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
@@ -200,7 +201,7 @@ class MainScreenState extends State<MainScreen> {
                 Icon(
                   iconData,
                   size: 40,
-                  color: Theme.of(context).accentColor,
+                  color: colorPrimary,
                 ),
                 VerticalDivider(),
                 Column(
@@ -209,8 +210,7 @@ class MainScreenState extends State<MainScreen> {
                   children: <Widget>[
                     Text(
                       value,
-                      style: TextStyle(
-                          fontSize: 18.0, color: Theme.of(context).accentColor),
+                      style: TextStyle(fontSize: 18.0, color: colorSecondary),
                     ),
                     SizedBox(
                       height: 5.0,
@@ -219,7 +219,7 @@ class MainScreenState extends State<MainScreen> {
                       name,
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: Theme.of(context).primaryColor,
+                        color: colorSecondary,
                       ),
                     ),
                   ],
