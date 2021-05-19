@@ -1,8 +1,11 @@
 import "package:flutter/material.dart";
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
+import 'package:lrsadmin/redux/app_state.dart';
 import 'package:lrsadmin/routes.dart';
 import 'common/drawer.dart';
+import 'main_view_model.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -18,28 +21,34 @@ class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
-            "LRS Admin",
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: _buildNotificationButton(),
+      child: StoreConnector<AppState, MainViewModel>(
+        builder: (ctx, vm) {
+          return Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+              iconTheme: IconThemeData(color: Colors.black),
+              title: Text(
+                "LRS Admin",
+                style: TextStyle(color: Colors.black),
+              ),
+              centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () {},
+                  icon: _buildNotificationButton(),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: _showChartsDashboard
-            ? _buildChartsDashboard()
-            : _buildHomeDashboard(),
-        drawer: DrawerBuilder(),
+            body: _showChartsDashboard
+                ? _buildChartsDashboard()
+                : _buildHomeDashboard(vm),
+            drawer: DrawerBuilder(),
+          );
+        },
+        converter: MainViewModel.fromStore,
+        distinct: true,
       ),
     );
   }
@@ -90,7 +99,7 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _buildHomeDashboard() {
+  Widget _buildHomeDashboard(MainViewModel vm) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       children: <Widget>[
@@ -126,7 +135,7 @@ class MainScreenState extends State<MainScreen> {
           children: <Widget>[
             GestureDetector(
               child: buildCardItem(
-                "1",
+                "${vm.lecturers.length}",
                 "Lecturers",
                 Ionicons.people_outline,
               ),
@@ -134,7 +143,7 @@ class MainScreenState extends State<MainScreen> {
             ),
             GestureDetector(
               child: buildCardItem(
-                "2",
+                "${vm.courses.length}",
                 "Courses",
                 Ionicons.book_outline,
               ),
@@ -147,7 +156,7 @@ class MainScreenState extends State<MainScreen> {
           children: <Widget>[
             GestureDetector(
               child: buildCardItem(
-                "1",
+                "${vm.faculties.length}",
                 "Facilities",
                 Ionicons.home_outline,
               ),
@@ -155,7 +164,7 @@ class MainScreenState extends State<MainScreen> {
             ),
             GestureDetector(
               child: buildCardItem(
-                "2",
+                "${vm.students.length}",
                 "Students",
                 Ionicons.people_outline,
               ),
@@ -168,7 +177,7 @@ class MainScreenState extends State<MainScreen> {
           children: <Widget>[
             GestureDetector(
               child: buildCardItem(
-                "1",
+                "${vm.news.length}",
                 "News",
                 Ionicons.newspaper_outline,
               ),
@@ -176,7 +185,7 @@ class MainScreenState extends State<MainScreen> {
             ),
             GestureDetector(
               child: buildCardItem(
-                "0",
+                "${vm.reviews.length}",
                 "Reviews",
                 Ionicons.chatbox_ellipses_outline,
               ),

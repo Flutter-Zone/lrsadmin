@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "407500921690",
-    "project_id": "lrsappadmin",
-    "storage_bucket": "lrsappadmin.appspot.com"
+    "project_number": "436624211410",
+    "project_id": "lrsapp-b01ff",
+    "storage_bucket": "lrsapp-b01ff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407500921690:android:146c8f937f059c0e697163",
+        "mobilesdk_app_id": "1:436624211410:android:535c8e84019f23afdf5c0b",
         "android_client_info": {
-          "package_name": "com.flutterzone.lrsadmin"
+          "package_name": "com.flutterzone.lecturers_evaluator"
         }
       },
       "oauth_client": [
         {
-          "client_id": "407500921690-g6rtrrvsa6sc7pokkoa7v7n7vhe2rv3o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.flutterzone.lrsadmin",
-            "certificate_hash": "47407067eb567d37b465738ba203545f7fbc282e"
-          }
-        },
-        {
-          "client_id": "407500921690-p8fn3f71c722aqnf4mja491vt0t2647t.apps.googleusercontent.com",
+          "client_id": "436624211410-nhlbb809i4khaose0ghvalc7023or3ie.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2zWvQ5YN4PG0Naq-j64uYBBW4NW0dtfU"
+          "current_key": "AIzaSyCl9dbvYcwAdHR5vRa6vE9fOfR9JZqwddQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "407500921690-p8fn3f71c722aqnf4mja491vt0t2647t.apps.googleusercontent.com",
+              "client_id": "436624211410-nhlbb809i4khaose0ghvalc7023or3ie.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
