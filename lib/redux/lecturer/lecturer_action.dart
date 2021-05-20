@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../models/lecturer_course.dart';
 import '../../models/course.dart';
 
@@ -17,4 +19,22 @@ class OnLecturerCoursesLoaded {
   String toString() {
     return "OnLecturerCoursesLoaded{lecturerCourses: $lecturerCourses}";
   }
+}
+
+class AddLecturer {
+  final String email;
+  final String fullname;
+  final String image;
+  final String phone;
+  final String faculty;
+  final Completer completer;
+
+  AddLecturer(
+      {this.email,
+      this.fullname,
+      this.image,
+      this.phone,
+      this.faculty,
+      Completer completer})
+      : completer = completer ?? Completer();
 }

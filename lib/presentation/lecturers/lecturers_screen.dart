@@ -7,6 +7,7 @@ import 'package:lrsadmin/presentation/common/button.dart';
 import 'package:lrsadmin/presentation/lecturers/viewmodels/lecturers_view_model.dart';
 import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
+import 'package:lrsadmin/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../constants/colors.dart';
 import '../../presentation/common/not_found.dart';
@@ -51,7 +52,7 @@ class _LecturersScreenState extends State<LecturersScreen> {
       actions: [
         IconButton(
           icon: Icon(Ionicons.add_outline, color: colorPrimary),
-          onPressed: () {},
+          onPressed: () => Navigator.of(context).pushNamed(Routes.addLecturer),
         ),
       ],
     );

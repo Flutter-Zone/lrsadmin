@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:lrsadmin/data/lecturer_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../app_state.dart';
@@ -11,14 +13,13 @@ import '../../models/course.dart';
 List<Middleware<AppState>> createLecturerMiddleware(
   LecturerCourseRepository lecturerCoursesRepository,
   CourseRepository courseRepository,
+  LecturerRepository lecturerRepository,
 ) {
   return [
     TypedMiddleware<AppState, FetchLecturerCourses>(
-      _loadLectureCoursData(
-        lecturerCoursesRepository,
-        courseRepository,
-      ),
+      _loadLectureCoursData(lecturerCoursesRepository, courseRepository),
     ),
+    TypedMiddleware<AppState, AddLecturer>(_addLecturer(lecturerRepository)),
   ];
 }
 
@@ -51,6 +52,34 @@ void Function(
       );
     } catch (e) {
       print("Something terrible just happened: $e");
+    }
+  };
+}
+
+void Function(
+  Store<AppState> store,
+  AddLecturer action,
+  NextDispatcher next,
+) _addLecturer(
+  LecturerRepository lecturerRepository,
+) {
+  return (store, action, next) async {
+    next(action);
+
+    try {
+      await lecturerRepository.addLecturer(
+        action.email,
+        action.fullname,
+        action.image,
+        action.phone,
+        action.faculty,
+      );
+
+      action.completer.complete("Lecturer added successfully!");
+    } on FirebaseException {
+      action.completer.completeError("Oops! Failed to add lecturer");
+    } catch (error) {
+      action.completer.completeError("Oops! Failed to add lecturer");
     }
   };
 }

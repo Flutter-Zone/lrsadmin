@@ -33,6 +33,18 @@ class LecturerRepository {
     });
   }
 
+  Future<void> addLecturer(email, fullname, image, phone, facultyId) async {
+    CollectionReference reviews =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_LECTURERS);
+    return reviews.add({
+      EMAIL: email,
+      NAME: fullname,
+      PHONE: phone,
+      IMAGE: '',
+      FACULTY_ID: facultyId,
+    });
+  }
+
   static Lecturer fromDoc(DocumentSnapshot document) {
     return Lecturer((r) => r
       ..uid = document.id

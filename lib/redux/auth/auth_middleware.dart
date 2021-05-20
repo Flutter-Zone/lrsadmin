@@ -17,8 +17,6 @@ List<Middleware<AppState>> createAuthenticationMiddleware(
     TypedMiddleware<AppState, VerifyAuthenticationState>(
         _verifyAuthState(userRepository, navigatorKey)),
     TypedMiddleware<AppState, LogIn>(_authLogin(userRepository, navigatorKey)),
-    TypedMiddleware<AppState, SignUp>(
-        _authSignUp(userRepository, navigatorKey)),
     TypedMiddleware<AppState, LogOutAction>(
         _authLogout(userRepository, navigatorKey)),
   ];
@@ -103,36 +101,6 @@ void Function(
         "title": "Something happened!",
         "message":
             "We think something terrible happened. Please try again later"
-      };
-      action.completer.completeError(errorMap);
-    }
-  };
-}
-
-void Function(
-  Store<AppState> store,
-  dynamic action,
-  NextDispatcher next,
-) _authSignUp(
-  UserRepository userRepository,
-  GlobalKey<NavigatorState> navigatorKey,
-) {
-  return (store, action, next) async {
-    next(action);
-    try {
-      await userRepository.signUp(
-          action.email, action.password, action.name, action.phone);
-      // store.dispatch(OnAuthenticated(user: user));
-      navigatorKey.currentState.popUntil((route) => route.isFirst);
-      navigatorKey.currentState.pushReplacementNamed(Routes.emailVerification);
-      action.completer.complete();
-    } on FirebaseAuthException catch (error) {
-      final errorMap = getFirebaseErrorMessage(error.code.toString());
-      action.completer.completeError(errorMap);
-    } catch (error) {
-      final errorMap = {
-        "title": "Oops! Authentication Failed",
-        "message": "Something went wrong. Please try again."
       };
       action.completer.completeError(errorMap);
     }

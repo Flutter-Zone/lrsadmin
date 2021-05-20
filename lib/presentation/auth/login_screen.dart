@@ -144,36 +144,36 @@ class _LoginScreenState extends State<LoginScreen> {
             buttonText: "Login",
             onPressedCallback: submitCallback,
           ),
-          SizedBox(
-            height: 60.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Don't have any account?",
-                style: TextStyle(
-                  color: grey,
-                  fontSize: 16.0,
-                ),
-              ),
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pushReplacementNamed(Routes.register),
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    color: colorSecondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                style: TextButton.styleFrom(
-                  shadowColor: colorSecondary,
-                ),
-              )
-            ],
-          ),
+          // SizedBox(
+          //   height: 60.0,
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Text(
+          //       "Don't have any account?",
+          //       style: TextStyle(
+          //         color: grey,
+          //         fontSize: 16.0,
+          //       ),
+          //     ),
+          //     TextButton(
+          //       onPressed: () =>
+          //           Navigator.of(context).pushReplacementNamed(Routes.register),
+          //       child: Text(
+          //         "Sign Up",
+          //         style: TextStyle(
+          //           color: colorSecondary,
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.normal,
+          //         ),
+          //       ),
+          //       style: TextButton.styleFrom(
+          //         shadowColor: colorSecondary,
+          //       ),
+          //     )
+          //   ],
+          // ),
         ],
       ),
     );
