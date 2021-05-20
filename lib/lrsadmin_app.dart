@@ -91,7 +91,12 @@ class LecturersEvaluatorAdminAppState
         )
         ..addAll(
           createLecturerMiddleware(
-              lecturerCourseRepository, courseRepository, lecturerRepository),
+            lecturerCourseRepository,
+            courseRepository,
+            lecturerRepository,
+            FileRepository(FirebaseStorage.instance),
+            ImageProcessor(),
+          ),
         )
         ..addAll(
           createReviewMiddleware(reviewRepository),

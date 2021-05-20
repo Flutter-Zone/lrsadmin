@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:io';
 import '../../models/lecturer_course.dart';
 import '../../models/course.dart';
 
@@ -22,6 +22,7 @@ class OnLecturerCoursesLoaded {
 }
 
 class AddLecturer {
+  final File file;
   final String email;
   final String fullname;
   final String image;
@@ -29,12 +30,13 @@ class AddLecturer {
   final String faculty;
   final Completer completer;
 
-  AddLecturer(
-      {this.email,
-      this.fullname,
-      this.image,
-      this.phone,
-      this.faculty,
-      Completer completer})
-      : completer = completer ?? Completer();
+  AddLecturer({
+    this.file,
+    this.email,
+    this.fullname,
+    this.image,
+    this.phone,
+    this.faculty,
+    Completer completer,
+  }) : completer = completer ?? Completer();
 }

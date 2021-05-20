@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/models/lecturer.dart';
 import 'package:lrsadmin/presentation/common/button.dart';
+import 'package:lrsadmin/presentation/common/dialogues.dart';
 import 'package:lrsadmin/presentation/lecturers/viewmodels/lecturers_view_model.dart';
 import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
@@ -52,7 +53,13 @@ class _LecturersScreenState extends State<LecturersScreen> {
       actions: [
         IconButton(
           icon: Icon(Ionicons.add_outline, color: colorPrimary),
-          onPressed: () => Navigator.of(context).pushNamed(Routes.addLecturer),
+          onPressed: () async {
+            final message =
+                await Navigator.of(context).pushNamed(Routes.addLecturer);
+            if (message != null) {
+              showNoContextToast(successToastColor, message);
+            }
+          },
         ),
       ],
     );

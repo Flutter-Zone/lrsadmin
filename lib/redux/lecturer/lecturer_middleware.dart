@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lrsadmin/data/file_repository.dart';
 import 'package:lrsadmin/data/lecturer_repository.dart';
+import 'package:lrsadmin/redux/attachment/image_processor.dart';
 import 'package:redux/redux.dart';
 
 import '../app_state.dart';
@@ -14,12 +16,15 @@ List<Middleware<AppState>> createLecturerMiddleware(
   LecturerCourseRepository lecturerCoursesRepository,
   CourseRepository courseRepository,
   LecturerRepository lecturerRepository,
+  FileRepository repository,
+  ImageProcessor imageProcessor,
 ) {
   return [
     TypedMiddleware<AppState, FetchLecturerCourses>(
       _loadLectureCoursData(lecturerCoursesRepository, courseRepository),
     ),
-    TypedMiddleware<AppState, AddLecturer>(_addLecturer(lecturerRepository)),
+    TypedMiddleware<AppState, AddLecturer>(
+        _addLecturer(lecturerRepository, repository, imageProcessor)),
   ];
 }
 
@@ -62,15 +67,22 @@ void Function(
   NextDispatcher next,
 ) _addLecturer(
   LecturerRepository lecturerRepository,
+  FileRepository repository,
+  ImageProcessor imageProcessor,
 ) {
   return (store, action, next) async {
     next(action);
 
     try {
+      final file = await imageProcessor.cropAndResizeAvatar(action.file);
+      final url = await repository.uploadFile(file);
+      // final user = action.user.rebuild((u) => u..image = url);
+      // await userRepository.updateUser(user);
+      // store.dispatch(OnUserUpdateAction(user));
       await lecturerRepository.addLecturer(
         action.email,
         action.fullname,
-        action.image,
+        url,
         action.phone,
         action.faculty,
       );

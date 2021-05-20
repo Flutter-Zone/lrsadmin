@@ -40,7 +40,7 @@ class LecturerRepository {
       EMAIL: email,
       NAME: fullname,
       PHONE: phone,
-      IMAGE: '',
+      IMAGE: image,
       FACULTY_ID: facultyId,
     });
   }
