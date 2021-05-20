@@ -46,6 +46,11 @@ List<News> filterNews(List<News> newss, String userId) {
   return newss.where((news) => news.users.contains(userId)).toList();
 }
 
+Lecturer getLecturer(List<Lecturer> lecturers, lecturerId) {
+  return lecturers.firstWhere((lecturer) => lecturer.uid == lecturerId,
+      orElse: () => null);
+}
+
 double getAverageRating(List<Review> reviews, String lecturerId) {
   double totalReview = 0.0;
   final filteredReviews =

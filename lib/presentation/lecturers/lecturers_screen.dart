@@ -15,6 +15,7 @@ import '../../constants/colors.dart';
 import '../../presentation/common/not_found.dart';
 import '../../presentation/common/user_avatar.dart';
 import '../../utils/string_extension.dart';
+import './arguments/add_lecturer_argument.dart';
 
 class LecturersScreen extends StatefulWidget {
   LecturersScreen({Key key}) : super(key: key);
@@ -114,24 +115,14 @@ class _LecturersScreenState extends State<LecturersScreen> {
           title: Text('Edit'),
           leading: Icon(Icons.edit),
           onTap: () async {
-            // Navigator.of(context).pop();
-            // final message = await Navigator.of(context).pushNamed(
-            //   Routes.course,
-            //   arguments: CourseArgument(
-            //     courseId: widget.review.courseId,
-            //     lecturerId: widget.review.lecturerId,
-            //     lecturerCourseId: widget.review.lecturerCourseId,
-            //     review: widget.review,
-            //     isAdding: false,
-            //   ),
-            // );
-            // if (message != null) {
-            //   showToast(
-            //       fToast: fToast,
-            //       icon: Ionicons.checkmark_outline,
-            //       backgroundColor: successToastColor,
-            //       message: message);
-            // }
+            Navigator.of(context).pop();
+            final message = await Navigator.of(context).pushNamed(
+              Routes.addLecturer,
+              arguments: AddLecturerArgument(lecturerId),
+            );
+            if (message != null) {
+              showNoContextToast(successToastColor, message);
+            }
           },
         ),
         ListTile(

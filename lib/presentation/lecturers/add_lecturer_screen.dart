@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:lrsadmin/constants/colors.dart';
-import 'package:lrsadmin/constants/res_values.dart';
-import 'package:lrsadmin/presentation/common/button.dart';
-import 'package:lrsadmin/presentation/common/dialogues.dart';
-import 'package:lrsadmin/presentation/common/user_avatar.dart';
-import 'package:lrsadmin/presentation/lecturers/viewmodels/add_lecturer_view_model.dart';
-import 'package:lrsadmin/redux/app_state.dart';
-import 'package:lrsadmin/redux/lecturer/lecturer_action.dart';
+import 'package:lrsadmin/models/lecturer.dart';
+import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../constants/colors.dart';
+import '../../constants/res_values.dart';
+import '../../presentation/common/button.dart';
+import '../../presentation/common/dialogues.dart';
+import '../../presentation/common/user_avatar.dart';
+import '../../presentation/lecturers/viewmodels/add_lecturer_view_model.dart';
+import '../../redux/app_state.dart';
+import '../../redux/lecturer/lecturer_action.dart';
+import './arguments/add_lecturer_argument.dart';
 
 class AddLecturerScreen extends StatefulWidget {
   @override
@@ -32,6 +35,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AddLecturerArgument args = ModalRoute.of(context).settings.arguments;
     return WillPopScope(
       onWillPop: () {
         Navigator.of(context).pop();
@@ -44,7 +48,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
           elevation: 0.5,
           automaticallyImplyLeading: false,
           title: Text(
-            "Add New Lecturer",
+            args != null ? "Edit Lecturer" : "Add New Lecturer",
             style: TextStyle(color: black),
           ),
           centerTitle: true,
@@ -59,6 +63,11 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
         body: StoreConnector<AppState, AddLecturersViewModel>(
           builder: (context, vm) {
             // loadFacultyList(vm);
+            Lecturer lecturer;
+            if (args != null) {
+              lecturer = getLecturer(vm.lecturers.toList(), args.lecturerId);
+              _selectedFaculty = lecturer.facultyId;
+            }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -67,7 +76,9 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                   children: [
                     _pickedFile == null
                         ? UserAvatar(
-                            imageUrl: defaultAvatarUrl,
+                            imageUrl: lecturer != null
+                                ? lecturer.image
+                                : defaultAvatarUrl,
                             onPressedCallback: () {},
                             size: 100,
                           )
@@ -90,8 +101,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                         expand: false,
                         context: context,
                         backgroundColor: Colors.transparent,
-                        builder: (context) =>
-                            _buildBottomModalSheetListTile(vm),
+                        builder: (context) => _buildBottomModalSheetListTile(),
                       ),
                       child: Text(
                         "Choose Photo",
@@ -105,9 +115,11 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                     ),
                     SizedBox(height: 30.0),
                     TextFormField(
+                      initialValue: lecturer != null ? lecturer.name : '',
                       decoration: InputDecoration(
-                          labelText: 'Name',
-                          hintText: 'Enter lecturer\'s name'),
+                        labelText: 'Name',
+                        hintText: 'Enter lecturer\'s name',
+                      ),
                       validator: (value) {
                         String errorMessage;
                         if (value.isEmpty) {
@@ -120,6 +132,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                       },
                     ),
                     TextFormField(
+                      initialValue: lecturer != null ? lecturer.email : '',
                       decoration: InputDecoration(
                           labelText: 'Email',
                           hintText: 'Enter lecturer\'s email'),
@@ -142,6 +155,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                       },
                     ),
                     TextFormField(
+                      initialValue: lecturer != null ? lecturer.phone : '',
                       decoration: InputDecoration(
                           labelText: 'Phone',
                           hintText: 'Enter lecturer\'s phone number'),
@@ -158,7 +172,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                       },
                     ),
                     DropdownButton(
-                      hint: Text('Select Gender'),
+                      hint: Text('Select Faculty'),
                       items: vm.faculties
                           .map(
                             (faculty) => DropdownMenuItem<String>(
@@ -179,8 +193,9 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                     ),
                     SizedBox(height: 200),
                     CustomButton(
-                      buttonText: "Add Lecturer",
-                      onPressedCallback: onPressedSubmit,
+                      buttonText:
+                          args != null ? "Update Lecturer" : "Add Lecturer",
+                      onPressedCallback: () => onPressedSubmit(args, lecturer),
                     )
                   ],
                 ),
@@ -194,23 +209,50 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
     );
   }
 
-  void onPressedSubmit() {
+  void onPressedSubmit(AddLecturerArgument args, lecturer) {
     if (_formKey.currentState.validate()) {
-      if (_pickedFile == null) {
-        showNoContextToast(errorToastColor, "Please select an image");
-        return;
+      if (args == null) {
+        if (_pickedFile == null) {
+          showNoContextToast(errorToastColor, "Please select an image");
+          return;
+        }
       }
-
-      print('the picked file: ${_pickedFile.path}');
 
       showLoadingDialog(context);
       _formKey.currentState.save();
+
+      if (args != null) {
+        final fileImage = _pickedFile != null ? File(_pickedFile.path) : null;
+        final _updateLecturer = UpdateLecturer(
+          email: _email,
+          phone: _phone,
+          fullname: _name,
+          image: lecturer.image,
+          faculty: _selectedFaculty,
+          file: fileImage,
+          lecturerId: args.lecturerId,
+        );
+
+        StoreProvider.of<AppState>(context).dispatch(_updateLecturer);
+
+        _updateLecturer.completer.future.then((message) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop(message);
+          // showNoContextToast(successToastColor, message);
+        });
+
+        _updateLecturer.completer.future.catchError((message) {
+          Navigator.of(context).pop();
+          showNoContextToast(errorToastColor, message);
+        });
+
+        return;
+      }
 
       final _addLecturerAction = AddLecturer(
         email: _email,
         phone: _phone,
         fullname: _name,
-        image: defaultAvatarUrl,
         faculty: _selectedFaculty,
         file: File(_pickedFile.path),
       );
@@ -220,7 +262,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
       _addLecturerAction.completer.future.then((message) {
         Navigator.of(context).pop();
         Navigator.of(context).pop(message);
-        showNoContextToast(successToastColor, message);
+        // showNoContextToast(successToastColor, message);
       });
 
       _addLecturerAction.completer.future.catchError((message) {
@@ -230,7 +272,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
     }
   }
 
-  Widget _buildBottomModalSheetListTile(AddLecturersViewModel vm) {
+  Widget _buildBottomModalSheetListTile() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

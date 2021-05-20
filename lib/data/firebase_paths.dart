@@ -24,4 +24,8 @@ class FirestorePaths {
   static String newsPath(String newsId) {
     return "$PATH_NEWS/$newsId";
   }
+
+  static String lecturerPath(String lecturerId) {
+    return "$PATH_LECTURERS/$lecturerId";
+  }
 }

@@ -25,7 +25,6 @@ class AddLecturer {
   final File file;
   final String email;
   final String fullname;
-  final String image;
   final String phone;
   final String faculty;
   final Completer completer;
@@ -34,9 +33,30 @@ class AddLecturer {
     this.file,
     this.email,
     this.fullname,
-    this.image,
     this.phone,
     this.faculty,
+    Completer completer,
+  }) : completer = completer ?? Completer();
+}
+
+class UpdateLecturer {
+  final File file;
+  final String email;
+  final String fullname;
+  final String phone;
+  final String image;
+  final String faculty;
+  final String lecturerId;
+  final Completer completer;
+
+  UpdateLecturer({
+    this.file,
+    this.email,
+    this.fullname,
+    this.phone,
+    this.image,
+    this.faculty,
+    this.lecturerId,
     Completer completer,
   }) : completer = completer ?? Completer();
 }

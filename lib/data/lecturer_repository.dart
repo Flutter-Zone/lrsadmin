@@ -45,6 +45,19 @@ class LecturerRepository {
     });
   }
 
+  Future<void> updateLecturer(
+      email, fullname, image, phone, facultyId, lecturerId) async {
+    final documentReference =
+        _firebaseFirestore.doc(FirestorePaths.lecturerPath(lecturerId));
+    return documentReference.update({
+      EMAIL: email,
+      NAME: fullname,
+      PHONE: phone,
+      IMAGE: image,
+      FACULTY_ID: facultyId,
+    });
+  }
+
   Future<void> deleteLecturer(lecturerId) {
     CollectionReference lecturers =
         FirebaseFirestore.instance.collection(FirestorePaths.PATH_LECTURERS);

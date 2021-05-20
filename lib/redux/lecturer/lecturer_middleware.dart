@@ -25,6 +25,8 @@ List<Middleware<AppState>> createLecturerMiddleware(
     ),
     TypedMiddleware<AppState, AddLecturer>(
         _addLecturer(lecturerRepository, repository, imageProcessor)),
+    TypedMiddleware<AppState, UpdateLecturer>(
+        _updateLecturer(lecturerRepository, repository, imageProcessor)),
     TypedMiddleware<AppState, DeleteLecturer>(
         _deleteLecturer(lecturerRepository)),
   ];
@@ -78,9 +80,7 @@ void Function(
     try {
       final file = await imageProcessor.cropAndResizeAvatar(action.file);
       final url = await repository.uploadFile(file);
-      // final user = action.user.rebuild((u) => u..image = url);
-      // await userRepository.updateUser(user);
-      // store.dispatch(OnUserUpdateAction(user));
+
       await lecturerRepository.addLecturer(
         action.email,
         action.fullname,
@@ -94,6 +94,43 @@ void Function(
       action.completer.completeError("Oops! Failed to add lecturer");
     } catch (error) {
       action.completer.completeError("Oops! Failed to add lecturer");
+    }
+  };
+}
+
+void Function(
+  Store<AppState> store,
+  UpdateLecturer action,
+  NextDispatcher next,
+) _updateLecturer(
+  LecturerRepository lecturerRepository,
+  FileRepository repository,
+  ImageProcessor imageProcessor,
+) {
+  return (store, action, next) async {
+    next(action);
+    try {
+      String url = action.image;
+
+      if (action.file != null) {
+        final file = await imageProcessor.cropAndResizeAvatar(action.file);
+        url = await repository.uploadFile(file);
+      }
+
+      await lecturerRepository.updateLecturer(
+        action.email,
+        action.fullname,
+        url,
+        action.phone,
+        action.faculty,
+        action.lecturerId,
+      );
+
+      action.completer.complete("Lecturer updated successfully!");
+    } on FirebaseException {
+      action.completer.completeError("Oops! Failed to update lecturer");
+    } catch (error) {
+      action.completer.completeError("Oops! Failed to update lecturer");
     }
   };
 }
