@@ -40,3 +40,11 @@ class AddLecturer {
     Completer completer,
   }) : completer = completer ?? Completer();
 }
+
+class DeleteLecturer {
+  final String lecturerId;
+  final Completer completer;
+
+  DeleteLecturer({this.lecturerId, Completer completer})
+      : completer = completer ?? Completer();
+}

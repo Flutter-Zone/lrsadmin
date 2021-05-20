@@ -46,7 +46,7 @@ class CourseRepository {
         ..uid = document.id
         ..title = document[TITLE]
         ..description = document[DESCRIPTION]
-        ..creditHours = document[CREDIT_HOURS],
+        ..creditHours = double.parse('${document[CREDIT_HOURS]}'),
     );
   }
 }

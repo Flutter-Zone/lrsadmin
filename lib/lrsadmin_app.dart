@@ -70,6 +70,7 @@ class LecturersEvaluatorAdminAppState
         reviewRepository,
         userRepository,
         questionRepository,
+        courseRepository,
       )
         ..addAll(
           createAttachmentMiddleware(

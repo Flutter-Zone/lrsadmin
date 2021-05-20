@@ -25,6 +25,8 @@ List<Middleware<AppState>> createLecturerMiddleware(
     ),
     TypedMiddleware<AppState, AddLecturer>(
         _addLecturer(lecturerRepository, repository, imageProcessor)),
+    TypedMiddleware<AppState, DeleteLecturer>(
+        _deleteLecturer(lecturerRepository)),
   ];
 }
 
@@ -92,6 +94,26 @@ void Function(
       action.completer.completeError("Oops! Failed to add lecturer");
     } catch (error) {
       action.completer.completeError("Oops! Failed to add lecturer");
+    }
+  };
+}
+
+void Function(
+  Store<AppState> store,
+  DeleteLecturer action,
+  NextDispatcher next,
+) _deleteLecturer(
+  LecturerRepository lecturerRepository,
+) {
+  return (store, action, next) async {
+    next(action);
+    try {
+      await lecturerRepository.deleteLecturer(action.lecturerId);
+      action.completer.complete("Lecturer deleted successfully!");
+    } on FirebaseException {
+      action.completer.completeError("Oops! Failed to delete lecturer");
+    } catch (error) {
+      action.completer.completeError("Oops! Failed to delete lecturer");
     }
   };
 }

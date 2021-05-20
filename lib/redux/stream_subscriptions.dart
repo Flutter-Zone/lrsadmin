@@ -17,6 +17,7 @@ StreamSubscription<Course> courseSubscription;
 StreamSubscription<List<User>> usersSubscription;
 StreamSubscription<List<News>> newsSubscription;
 StreamSubscription<List<Question>> questionsSubscription;
+StreamSubscription<List<Course>> coursesSubscription;
 
 cancelAllSubscriptions() {
   userSubscription?.cancel();
@@ -28,4 +29,5 @@ cancelAllSubscriptions() {
   usersSubscription?.cancel();
   newsSubscription?.cancel();
   questionsSubscription?.cancel();
+  coursesSubscription?.cancel();
 }

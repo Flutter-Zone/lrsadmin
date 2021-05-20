@@ -1,3 +1,5 @@
+import 'package:lrsadmin/models/course.dart';
+
 import '../models/news.dart';
 import '../models/review.dart';
 import '../models/user.dart';
@@ -61,4 +63,10 @@ class OnQuestionsLoaded {
   final List<Question> questions;
 
   OnQuestionsLoaded(this.questions);
+}
+
+class OnCoursesLoaded {
+  final List<Course> courses;
+
+  OnCoursesLoaded(this.courses);
 }

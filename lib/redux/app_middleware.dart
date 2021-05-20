@@ -1,3 +1,5 @@
+import 'package:lrsadmin/data/course_repository.dart';
+import 'package:lrsadmin/models/course.dart';
 import 'package:redux/redux.dart';
 
 import '../data/news_repository.dart';
@@ -24,6 +26,7 @@ List<Middleware<AppState>> createStoreMiddleware(
   ReviewRepository reviewRepository,
   UserRepository userRepository,
   QuestionRepository questionRepository,
+  CourseRepository courseRepository,
 ) {
   return [
     TypedMiddleware<AppState, ConnectToDataSource>(
@@ -34,6 +37,7 @@ List<Middleware<AppState>> createStoreMiddleware(
         reviewRepository,
         userRepository,
         questionRepository,
+        courseRepository,
       ),
     ),
   ];
@@ -50,6 +54,7 @@ void Function(
   ReviewRepository reviewRepository,
   UserRepository userRepository,
   QuestionRepository questionRepository,
+  CourseRepository courseRepository,
 ) {
   return (store, action, next) async {
     next(action);
@@ -97,6 +102,12 @@ void Function(
           .getQuestionsStream()
           .listen((List<Question> questions) {
         store.dispatch(OnQuestionsLoaded(questions));
+      });
+
+      coursesSubscription?.cancel();
+      coursesSubscription =
+          courseRepository.getCoursesStream().listen((List<Course> courses) {
+        store.dispatch(OnCoursesLoaded(courses));
       });
     } catch (e) {
       print("Something terrible just happened: $e");

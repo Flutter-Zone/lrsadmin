@@ -13,9 +13,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  bool isfetchingAll = true;
-  bool _showChartsDashboard = false;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -34,68 +31,14 @@ class MainScreenState extends State<MainScreen> {
                 style: TextStyle(color: Colors.black),
               ),
               centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  onPressed: () {},
-                  icon: _buildNotificationButton(),
-                ),
-              ],
             ),
-            body: _showChartsDashboard
-                ? _buildChartsDashboard()
-                : _buildHomeDashboard(vm),
+            body: _buildHomeDashboard(vm),
             drawer: DrawerBuilder(),
           );
         },
         converter: MainViewModel.fromStore,
         distinct: true,
       ),
-    );
-  }
-
-  Widget _buildNotificationButton() {
-    return Container(
-      width: 30.0,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            // top: 13.0,
-            child: Icon(
-              Ionicons.notifications_outline,
-              color: colorPrimary,
-              size: 30.0,
-            ),
-          ),
-          Positioned(
-            // top: 15.0,
-            left: 15.0,
-            child: Container(
-              height: 12.0,
-              width: 12.0,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(7.0),
-              ),
-              child: Center(
-                child: Text(
-                  "2",
-                  style: TextStyle(
-                    fontSize: 8.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildChartsDashboard() {
-    return Container(
-      color: Colors.red,
     );
   }
 
@@ -157,7 +100,7 @@ class MainScreenState extends State<MainScreen> {
             GestureDetector(
               child: buildCardItem(
                 "${vm.faculties.length}",
-                "Facilities",
+                "Faculties",
                 Ionicons.home_outline,
               ),
               onTap: () {},

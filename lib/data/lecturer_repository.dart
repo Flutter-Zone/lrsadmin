@@ -45,6 +45,13 @@ class LecturerRepository {
     });
   }
 
+  Future<void> deleteLecturer(lecturerId) {
+    CollectionReference lecturers =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_LECTURERS);
+
+    return lecturers.doc(lecturerId).delete();
+  }
+
   static Lecturer fromDoc(DocumentSnapshot document) {
     return Lecturer((r) => r
       ..uid = document.id

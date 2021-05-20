@@ -8,6 +8,7 @@ import 'package:lrsadmin/presentation/common/dialogues.dart';
 import 'package:lrsadmin/presentation/lecturers/viewmodels/lecturers_view_model.dart';
 import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
+import 'package:lrsadmin/redux/lecturer/lecturer_action.dart';
 import 'package:lrsadmin/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../constants/colors.dart';
@@ -105,7 +106,7 @@ class _LecturersScreenState extends State<LecturersScreen> {
           );
   }
 
-  Widget _buildBottomModalSheetListTile() {
+  Widget _buildBottomModalSheetListTile(lecturerId) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -137,32 +138,22 @@ class _LecturersScreenState extends State<LecturersScreen> {
           title: Text('Delete'),
           leading: Icon(Ionicons.trash_outline),
           onTap: () {
-            // Navigator.of(widget.globalKey.currentContext).pop();
-            // showLoadingDialog(context);
-            // final _deleteReviewAction =
-            //     DeleteReview(reviewId: widget.review.uid);
-            // StoreProvider.of<AppState>(context).dispatch(_deleteReviewAction);
-            // _deleteReviewAction.completer.future.then(
-            //   (message) {
-            //     Navigator.of(widget.globalKey.currentContext).pop();
-            //     showToast(
-            //       fToast: fToast,
-            //       icon: Ionicons.checkmark_outline,
-            //       backgroundColor: successToastColor,
-            //       message: message,
-            //     );
-            //   },
-            // );
+            Navigator.of(context).pop();
+            showLoadingDialog(context);
+            final _deleteLecturerAction =
+                DeleteLecturer(lecturerId: lecturerId);
+            StoreProvider.of<AppState>(context).dispatch(_deleteLecturerAction);
+            _deleteLecturerAction.completer.future.then(
+              (message) {
+                Navigator.of(context).pop();
+                showNoContextToast(successToastColor, message);
+              },
+            );
 
-            // _deleteReviewAction.completer.future.catchError((message) {
-            //   Navigator.of(widget.globalKey.currentContext).pop();
-            //   showToast(
-            //     fToast: fToast,
-            //     icon: Ionicons.close_outline,
-            //     backgroundColor: errorToastColor,
-            //     message: message,
-            //   );
-            // });
+            _deleteLecturerAction.completer.future.catchError((message) {
+              Navigator.of(context).pop();
+              showNoContextToast(errorToastColor, message);
+            });
           },
         ),
       ],
@@ -244,7 +235,8 @@ class _LecturersScreenState extends State<LecturersScreen> {
                     expand: false,
                     context: context,
                     backgroundColor: Colors.transparent,
-                    builder: (context) => _buildBottomModalSheetListTile());
+                    builder: (context) =>
+                        _buildBottomModalSheetListTile(lecturer.uid));
               },
               child: Icon(
                 Ionicons.ellipsis_vertical_outline,
