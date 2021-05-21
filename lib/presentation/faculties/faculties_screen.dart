@@ -4,6 +4,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
 import 'package:lrsadmin/redux/app_state.dart';
+import 'package:lrsadmin/redux/faculty/faculty_actions.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../routes.dart';
@@ -55,7 +56,7 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
         builder: (ctx, vm) {
           return ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-            itemCount: 3,
+            itemCount: vm.faculties.length,
             itemBuilder: (ctx, index) {
               return ListTile(
                 leading: Image.network('${vm.faculties[index].image}'),
@@ -93,7 +94,7 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
     );
   }
 
-  Widget _buildBottomModalSheetListTile(String courseId) {
+  Widget _buildBottomModalSheetListTile(String facultyId) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -115,21 +116,22 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
           title: Text('Delete'),
           leading: Icon(Ionicons.trash_outline),
           onTap: () {
-            // Navigator.of(context).pop();
-            // showLoadingDialog(context);
-            // final _deleteCourseAction = DeleteCourse(courseId: courseId);
-            // StoreProvider.of<AppState>(context).dispatch(_deleteCourseAction);
-            // _deleteCourseAction.completer.future.then(
-            //   (message) {
-            //     Navigator.of(context).pop();
-            //     showNoContextToast(successToastColor, message);
-            //   },
-            // );
+            print("the faculty id: $facultyId");
+            Navigator.of(context).pop();
+            showLoadingDialog(context);
+            final _deleteFacultyAction = DeleteFaculty(facultyId: facultyId);
+            StoreProvider.of<AppState>(context).dispatch(_deleteFacultyAction);
+            _deleteFacultyAction.completer.future.then(
+              (message) {
+                Navigator.of(context).pop();
+                showNoContextToast(successToastColor, message);
+              },
+            );
 
-            // _deleteCourseAction.completer.future.catchError((message) {
-            //   Navigator.of(context).pop();
-            //   showNoContextToast(errorToastColor, message);
-            // });
+            _deleteFacultyAction.completer.future.catchError((message) {
+              Navigator.of(context).pop();
+              showNoContextToast(errorToastColor, message);
+            });
           },
         ),
       ],

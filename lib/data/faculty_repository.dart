@@ -30,6 +30,33 @@ class FacultyRepository {
     });
   }
 
+  Future<void> addFaculty(name, description, image) async {
+    CollectionReference faculties =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_FACULTIES);
+    return faculties.add({
+      NAME: name,
+      DESCRIPTION: description,
+      IMAGE: image,
+    });
+  }
+
+  Future<void> updateFaculty(name, description, image, facultyId) async {
+    final documentReference =
+        _firebaseFirestore.doc(FirestorePaths.facultyPath(facultyId));
+    return documentReference.update({
+      NAME: name,
+      DESCRIPTION: description,
+      IMAGE: image,
+    });
+  }
+
+  Future<void> deleteFaculty(facultyId) {
+    CollectionReference faculties =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_FACULTIES);
+
+    return faculties.doc(facultyId).delete();
+  }
+
   static Faculty fromDoc(DocumentSnapshot document) {
     return Faculty((r) => r
       ..uid = document.id

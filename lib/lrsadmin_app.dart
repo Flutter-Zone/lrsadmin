@@ -9,6 +9,7 @@ import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
 import 'package:lrsadmin/redux/course/course_middlewares.dart';
+import 'package:lrsadmin/redux/faculty/faculty_middleware.dart';
 import 'package:redux/redux.dart';
 import './data/comment_repository.dart';
 import './data/news_repository.dart';
@@ -64,59 +65,66 @@ class LecturersEvaluatorAdminAppState
   @override
   void initState() {
     super.initState();
-    store = Store<AppState>(appReducer,
-        initialState: AppState.init(),
-        middleware: createStoreMiddleware(
-          facultyRepository,
-          lecturerRepository,
-          newsRepository,
-          reviewRepository,
-          userRepository,
-          questionRepository,
-          courseRepository,
+    store = Store<AppState>(
+      appReducer,
+      initialState: AppState.init(),
+      middleware: createStoreMiddleware(
+        facultyRepository,
+        lecturerRepository,
+        newsRepository,
+        reviewRepository,
+        userRepository,
+        questionRepository,
+        courseRepository,
+      )
+        ..addAll(
+          createAttachmentMiddleware(
+            FileRepository(FirebaseStorage.instance),
+            ImageProcessor(),
+            userRepository,
+          ),
         )
-          ..addAll(
-            createAttachmentMiddleware(
-              FileRepository(FirebaseStorage.instance),
-              ImageProcessor(),
-              userRepository,
-            ),
-          )
-          ..addAll(
-            createUserMiddleware(
-              userRepository,
-            ),
-          )
-          ..addAll(
-            createAuthenticationMiddleware(
-              userRepository,
-              _navigatorKey,
-            ),
-          )
-          ..addAll(
-            createLecturerMiddleware(
-              lecturerCourseRepository,
-              courseRepository,
-              lecturerRepository,
-              FileRepository(FirebaseStorage.instance),
-              ImageProcessor(),
-            ),
-          )
-          ..addAll(
-            createReviewMiddleware(reviewRepository),
-          )
-          ..addAll(
-            createCommentMiddleware(commentRepository),
-          )
-          ..addAll(
-            createNewsMiddleware(newsRepository),
-          )
-          ..addAll(
-            createCourseMiddleware(
-              courseRepository,
-              lecturerCourseRepository,
-            ),
-          ));
+        ..addAll(
+          createUserMiddleware(
+            userRepository,
+          ),
+        )
+        ..addAll(
+          createAuthenticationMiddleware(
+            userRepository,
+            _navigatorKey,
+          ),
+        )
+        ..addAll(
+          createLecturerMiddleware(
+            lecturerCourseRepository,
+            courseRepository,
+            lecturerRepository,
+            FileRepository(FirebaseStorage.instance),
+            ImageProcessor(),
+          ),
+        )
+        ..addAll(
+          createReviewMiddleware(reviewRepository),
+        )
+        ..addAll(
+          createCommentMiddleware(commentRepository),
+        )
+        ..addAll(
+          createNewsMiddleware(newsRepository),
+        )
+        ..addAll(
+          createCourseMiddleware(
+            courseRepository,
+            lecturerCourseRepository,
+          ),
+        )
+        ..addAll(
+          createFacultyMiddleware(
+            facultyRepository,
+          ),
+        ),
+    );
 
     store.dispatch(VerifyAuthenticationState());
   }
