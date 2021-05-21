@@ -40,6 +40,33 @@ class CourseRepository {
     });
   }
 
+  Future<void> addCourse(title, description, creditHours) async {
+    CollectionReference courses =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_COURSES);
+    return courses.add({
+      TITLE: title,
+      DESCRIPTION: description,
+      CREDIT_HOURS: creditHours,
+    });
+  }
+
+  Future<void> updateCourse(title, description, creditHours, courseId) async {
+    final documentReference =
+        _firebaseFirestore.doc(FirestorePaths.coursePath(courseId));
+    return documentReference.update({
+      TITLE: title,
+      DESCRIPTION: description,
+      CREDIT_HOURS: creditHours,
+    });
+  }
+
+  Future<void> deleteCourse(courseId) {
+    CollectionReference courses =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_COURSES);
+
+    return courses.doc(courseId).delete();
+  }
+
   static Course fromDoc(DocumentSnapshot document) {
     return Course(
       (r) => r

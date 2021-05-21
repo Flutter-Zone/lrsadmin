@@ -90,7 +90,7 @@ class MainScreenState extends State<MainScreen> {
                 "Courses",
                 Ionicons.book_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.courses),
             ),
           ],
         ),

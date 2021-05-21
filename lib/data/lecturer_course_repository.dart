@@ -27,6 +27,19 @@ class LecturerCourseRepository {
     );
   }
 
+  Future<void> deleteLecturerCourse(courseId) {
+    final courses = FirebaseFirestore.instance
+        .collection(FirestorePaths.PATH_LECTURER_COURSES)
+        .where(COURSE_ID, isEqualTo: courseId);
+
+    return courses.get().then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((doc) {
+        print("deleted the course");
+        doc.reference.delete();
+      });
+    });
+  }
+
   static LecturerCourse fromDoc(DocumentSnapshot document) {
     return LecturerCourse(
       (r) => r
