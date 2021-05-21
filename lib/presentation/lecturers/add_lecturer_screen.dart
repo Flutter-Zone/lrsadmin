@@ -159,7 +159,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                       decoration: InputDecoration(
                           labelText: 'Phone',
                           hintText: 'Enter lecturer\'s phone number'),
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.phone,
                       validator: (String value) {
                         String errorMessage;
                         if (value.isEmpty) {

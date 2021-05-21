@@ -6,6 +6,7 @@ import 'package:lrsadmin/presentation/common/dialogues.dart';
 import 'package:lrsadmin/redux/app_state.dart';
 import 'package:lrsadmin/redux/course/course_actions.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../routes.dart';
 import './viewmodels/courses_view_model.dart';
 import '../../utils/string_extension.dart';
 
@@ -37,6 +38,18 @@ class _CoursesScreenState extends State<CoursesScreen> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Ionicons.add_outline, color: colorPrimary),
+            onPressed: () async {
+              final message =
+                  await Navigator.of(context).pushNamed(Routes.addCourse);
+              if (message != null) {
+                showNoContextToast(successToastColor, message);
+              }
+            },
+          ),
+        ],
       ),
       body: StoreConnector<AppState, CoursesViewModel>(
         builder: (context, vm) {
