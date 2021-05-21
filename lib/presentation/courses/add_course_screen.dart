@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lrsadmin/models/course.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
+import 'package:lrsadmin/presentation/courses/arguments/add_course_argument.dart';
+import 'package:lrsadmin/presentation/courses/viewmodels/courses_view_model.dart';
+import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/course/course_actions.dart';
 import '../../constants/colors.dart';
 import '../../presentation/common/button.dart';
@@ -22,7 +26,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final AddLecturerArgument args = ModalRoute.of(context).settings.arguments;
+    final AddCourseArgument args = ModalRoute.of(context).settings.arguments;
     return WillPopScope(
       onWillPop: () {
         Navigator.of(context).pop();
@@ -35,7 +39,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
           elevation: 0.5,
           automaticallyImplyLeading: false,
           title: Text(
-            "Add New Course",
+            args != null ? "Edit Course" : "Add New Course",
             style: TextStyle(color: black),
           ),
           centerTitle: true,
@@ -47,8 +51,12 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: StoreConnector<AppState, AddLecturersViewModel>(
+        body: StoreConnector<AppState, CoursesViewModel>(
           builder: (context, vm) {
+            Course course;
+            if (args != null) {
+              course = getCourse(vm.courses.toList(), args.courseId);
+            }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -56,7 +64,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      // initialValue:'',
+                      initialValue: course != null ? course.title : '',
                       decoration: InputDecoration(
                         labelText: 'Course title',
                         hintText: 'Enter the course title',
@@ -74,7 +82,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
-                      // controller: textAreaController,
+                      initialValue: course != null ? course.description : '',
                       maxLines: 5,
                       decoration: InputDecoration(
                         hintText: 'Enter description',
@@ -107,7 +115,8 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                       },
                     ),
                     TextFormField(
-                      // initialValue: '',
+                      initialValue:
+                          course != null ? course.creditHours.toString() : '',
                       decoration: InputDecoration(
                         labelText: 'Credit Hour',
                         hintText: 'Enter credit hour',
@@ -126,25 +135,49 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                     SizedBox(height: 200),
                     CustomButton(
-                      buttonText: "Add Course",
-                      onPressedCallback: () => onPressedSubmit(),
+                      buttonText: args != null ? "Update Course" : "Add Course",
+                      onPressedCallback: () => onPressedSubmit(args),
                     )
                   ],
                 ),
               ),
             );
           },
-          converter: AddLecturersViewModel.fromStore,
+          converter: CoursesViewModel.fromStore,
           distinct: true,
         ),
       ),
     );
   }
 
-  void onPressedSubmit() {
+  void onPressedSubmit(AddCourseArgument args) {
     if (_formKey.currentState.validate()) {
       showLoadingDialog(context);
       _formKey.currentState.save();
+
+      if (args != null) {
+        final _updateCourseAction = UpdateCourse(
+          courseId: args.courseId,
+          creditHours: _creditHour,
+          title: _title,
+          description: _description,
+        );
+
+        StoreProvider.of<AppState>(context).dispatch(_updateCourseAction);
+
+        _updateCourseAction.completer.future.then((message) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop(message);
+          // showNoContextToast(successToastColor, message);
+        });
+
+        _updateCourseAction.completer.future.catchError((message) {
+          Navigator.of(context).pop();
+          showNoContextToast(errorToastColor, message);
+        });
+
+        return;
+      }
 
       final _addCourseAction = AddCourse(
           title: _title, creditHours: _creditHour, description: _description);
