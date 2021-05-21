@@ -103,7 +103,7 @@ class MainScreenState extends State<MainScreen> {
                 "Faculties",
                 Ionicons.home_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.faculties),
             ),
             GestureDetector(
               child: buildCardItem(

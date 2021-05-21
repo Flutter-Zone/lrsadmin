@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:lrsadmin/presentation/auth/login_screen.dart';
 import 'package:lrsadmin/presentation/courses/add_course_screen.dart';
+import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
 import 'package:lrsadmin/redux/course/course_middlewares.dart';
@@ -139,6 +140,7 @@ class LecturersEvaluatorAdminAppState
           Routes.addLecturer: (context) => AddLecturerScreen(),
           Routes.courses: (context) => CoursesScreen(),
           Routes.addCourse: (context) => AddCourseScreen(),
+          Routes.faculties: (context) => FacultiesScreen(),
         },
       ),
     );
