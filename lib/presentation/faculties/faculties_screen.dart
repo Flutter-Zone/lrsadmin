@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
+import 'package:lrsadmin/presentation/faculties/arguments/add_faculty_argument.dart';
 import 'package:lrsadmin/redux/app_state.dart';
 import 'package:lrsadmin/redux/faculty/faculty_actions.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -102,14 +103,14 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
           title: Text('Edit'),
           leading: Icon(Icons.edit),
           onTap: () async {
-            // Navigator.of(context).pop();
-            // final message = await Navigator.of(context).pushNamed(
-            //   Routes.addCourse,
-            //   arguments: AddCourseArgument(courseId),
-            // );
-            // if (message != null) {
-            //   showNoContextToast(successToastColor, message);
-            // }
+            Navigator.of(context).pop();
+            final message = await Navigator.of(context).pushNamed(
+              Routes.addFaculty,
+              arguments: AddFacultyArgument(facultyId),
+            );
+            if (message != null) {
+              showNoContextToast(successToastColor, message);
+            }
           },
         ),
         ListTile(

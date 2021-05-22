@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           Text(
-            "Login",
+            "Admin | Login",
             style: TextStyle(
               fontSize: 32.0,
             ),

@@ -55,6 +55,7 @@ flutter:
   assets:
     - assets/images/lrs_logo.JPG
     - assets/images/regentlogo.jpeg
+    - assets/images/placeholder.png
   fonts:
     - family: Jost
       fonts:

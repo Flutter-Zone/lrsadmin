@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:lrsadmin/presentation/auth/login_screen.dart';
 import 'package:lrsadmin/presentation/courses/add_course_screen.dart';
+import 'package:lrsadmin/presentation/faculties/add_faculty_screen.dart';
 import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
@@ -61,6 +62,8 @@ class LecturersEvaluatorAdminAppState
   final newsRepository = NewsRepository(FirebaseFirestore.instance);
   final commentRepository = CommentRepository(FirebaseFirestore.instance);
   final questionRepository = QuestionRepository(FirebaseFirestore.instance);
+  final fileRepository = FileRepository(FirebaseStorage.instance);
+  final imageProcessor = ImageProcessor();
 
   @override
   void initState() {
@@ -79,8 +82,8 @@ class LecturersEvaluatorAdminAppState
       )
         ..addAll(
           createAttachmentMiddleware(
-            FileRepository(FirebaseStorage.instance),
-            ImageProcessor(),
+            fileRepository,
+            imageProcessor,
             userRepository,
           ),
         )
@@ -100,8 +103,8 @@ class LecturersEvaluatorAdminAppState
             lecturerCourseRepository,
             courseRepository,
             lecturerRepository,
-            FileRepository(FirebaseStorage.instance),
-            ImageProcessor(),
+            fileRepository,
+            imageProcessor,
           ),
         )
         ..addAll(
@@ -122,6 +125,8 @@ class LecturersEvaluatorAdminAppState
         ..addAll(
           createFacultyMiddleware(
             facultyRepository,
+            fileRepository,
+            imageProcessor,
           ),
         ),
     );
@@ -149,6 +154,7 @@ class LecturersEvaluatorAdminAppState
           Routes.courses: (context) => CoursesScreen(),
           Routes.addCourse: (context) => AddCourseScreen(),
           Routes.faculties: (context) => FacultiesScreen(),
+          Routes.addFaculty: (context) => AddFacultyScreen(),
         },
       ),
     );
