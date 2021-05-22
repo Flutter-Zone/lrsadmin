@@ -85,6 +85,31 @@ class UserRepository {
     return await _fromFirebaseUser(firebaseUser.user, name: name, phone: phone);
   }
 
+  Future<void> addStudent(email, name, image, phone) async {
+    CollectionReference students =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_USERS);
+    return students.add({
+      EMAIL: email,
+      NAME: name,
+      PHONE: phone,
+      IMAGE: image,
+    });
+  }
+
+  Future<void> updateStudent(email, name, image, phone, studentId) async {
+    final documentReference =
+        _firestore.doc(FirestorePaths.userPath(studentId));
+    return documentReference
+        .update({EMAIL: email, NAME: name, PHONE: phone, IMAGE: image});
+  }
+
+  Future<void> deleteStudent(studentId) {
+    CollectionReference students =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_USERS);
+
+    return students.doc(studentId).delete();
+  }
+
   Future<void> updateUser(ModelUser.User user) async {
     final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {

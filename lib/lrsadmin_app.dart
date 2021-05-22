@@ -9,8 +9,10 @@ import 'package:lrsadmin/presentation/faculties/add_faculty_screen.dart';
 import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
+import 'package:lrsadmin/presentation/student/students_screen.dart';
 import 'package:lrsadmin/redux/course/course_middlewares.dart';
 import 'package:lrsadmin/redux/faculty/faculty_middleware.dart';
+import 'package:lrsadmin/redux/student/student_middleware.dart';
 import 'package:redux/redux.dart';
 import './data/comment_repository.dart';
 import './data/news_repository.dart';
@@ -128,6 +130,13 @@ class LecturersEvaluatorAdminAppState
             fileRepository,
             imageProcessor,
           ),
+        )
+        ..addAll(
+          createStudentMiddleware(
+            userRepository,
+            fileRepository,
+            imageProcessor,
+          ),
         ),
     );
 
@@ -155,6 +164,7 @@ class LecturersEvaluatorAdminAppState
           Routes.addCourse: (context) => AddCourseScreen(),
           Routes.faculties: (context) => FacultiesScreen(),
           Routes.addFaculty: (context) => AddFacultyScreen(),
+          Routes.students: (context) => StudentsScreen(),
         },
       ),
     );

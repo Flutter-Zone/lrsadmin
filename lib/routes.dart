@@ -7,6 +7,7 @@ class Routes {
   static const String addCourse = "/addCourse";
   static const String faculties = "/faculties";
   static const String addFaculty = "/addFaculty";
-
+  static const String students = "/students";
+  static const String addStudent = "/addStudent";
   static const String forgotPassword = "/forgotPassword";
 }

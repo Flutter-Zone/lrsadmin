@@ -111,7 +111,7 @@ class MainScreenState extends State<MainScreen> {
                 "Students",
                 Ionicons.people_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.students),
             ),
           ],
         ),

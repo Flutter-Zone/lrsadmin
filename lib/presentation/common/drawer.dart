@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lrsadmin/routes.dart';
 
 class DrawerBuilder extends StatelessWidget {
   @override
@@ -32,10 +33,6 @@ class DrawerBuilder extends StatelessWidget {
                           width: 90.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(45.0),
-                            // image: DecorationImage(
-                            //   image: AssetImage("assets/images/lunch.jpeg"),
-                            //   fit: BoxFit.cover,
-                            // ),
                           ),
                         ),
                       ),
@@ -87,7 +84,10 @@ class DrawerBuilder extends StatelessWidget {
           Column(
             children: <Widget>[
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.lecturers);
+                },
                 leading: Icon(
                   Ionicons.people_outline,
                   size: 25.0,
@@ -104,7 +104,7 @@ class DrawerBuilder extends StatelessWidget {
               ListTile(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed("/orderspage");
+                  Navigator.of(context).pushNamed(Routes.courses);
                 },
                 leading: Icon(
                   Ionicons.book_outline,
@@ -132,12 +132,13 @@ class DrawerBuilder extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              ListTile(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed("/add_store_page");
+                  Navigator.of(context).pushNamed(Routes.faculties);
                 },
+              ),
+              ListTile(
+                onTap: () {},
                 leading: Icon(
                   Ionicons.people_outline,
                   size: 25.0,

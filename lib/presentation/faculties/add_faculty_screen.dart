@@ -13,7 +13,6 @@ import '../../constants/colors.dart';
 import '../../constants/res_values.dart';
 import '../../presentation/common/button.dart';
 import '../../presentation/common/dialogues.dart';
-import '../../presentation/common/user_avatar.dart';
 import '../../redux/app_state.dart';
 
 class AddFacultyScreen extends StatefulWidget {
