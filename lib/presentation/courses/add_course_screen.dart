@@ -9,7 +9,6 @@ import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/course/course_actions.dart';
 import '../../constants/colors.dart';
 import '../../presentation/common/button.dart';
-import '../../presentation/lecturers/viewmodels/add_lecturer_view_model.dart';
 import '../../redux/app_state.dart';
 
 class AddCourseScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-package com.flutterzone.lecturers_evaluator
+package com.flutterzone.lrsadmin
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,8 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:lrsadmin/data/course_repository.dart';
 import 'package:lrsadmin/data/faculty_repository.dart';
-import 'package:lrsadmin/data/lecturer_course_repository.dart';
-import 'package:lrsadmin/redux/course/course_actions.dart';
 import 'package:lrsadmin/redux/faculty/faculty_actions.dart';
 import 'package:redux/redux.dart';
 
