@@ -162,7 +162,7 @@ class _LecturersScreenState extends State<LecturersScreen> {
           children: [
             UserAvatar(
               imageUrl: "${lecturer.image}",
-              size: 80,
+              size: 70,
             ),
             SizedBox(width: 10.0),
             Expanded(

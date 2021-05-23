@@ -6,6 +6,7 @@ class AddStudent {
   final String email;
   final String name;
   final String phone;
+  final String password;
   final Completer completer;
 
   AddStudent({
@@ -13,6 +14,7 @@ class AddStudent {
     this.email,
     this.name,
     this.phone,
+    this.password,
     Completer completer,
   }) : completer = completer ?? Completer();
 }

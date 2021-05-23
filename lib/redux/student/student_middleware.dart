@@ -37,11 +37,7 @@ void Function(
       final url = await repository.uploadFile(file);
 
       await userRepository.addStudent(
-        action.email,
-        action.name,
-        url,
-        action.phone,
-      );
+          action.email, action.name, url, action.phone, action.password);
 
       action.completer.complete("Student added successfully!");
     } on FirebaseException {

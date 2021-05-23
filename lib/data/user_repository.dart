@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import '../models/user.dart' as ModelUser;
 
 import 'firebase_paths.dart';
@@ -52,7 +51,7 @@ class UserRepository {
 
   Stream<ModelUser.User> getAuthenticationStateChange() {
     return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) {
-      return _fromFirebaseUser(firebaseUser);
+      return _fromFirebaseUser(firebaseUser, "", "", "");
     });
   }
 
@@ -61,7 +60,7 @@ class UserRepository {
     final firebaseUser = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
 
-    final modelUser = await _fromFirebaseUser(firebaseUser.user);
+    final modelUser = await _fromFirebaseUser(firebaseUser.user, "", "", "");
     if (firebaseUser.user.emailVerified) {
       isEmailVerified = true;
     }
@@ -75,25 +74,13 @@ class UserRepository {
     return _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  Future<ModelUser.User> signUp(
-      String email, String password, String name, String phone) async {
-    final firebaseUser = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    try {
-      await firebaseUser.user.sendEmailVerification();
-    } catch (e) {}
-    return await _fromFirebaseUser(firebaseUser.user, name: name, phone: phone);
-  }
-
-  Future<void> addStudent(email, name, image, phone) async {
-    CollectionReference students =
-        FirebaseFirestore.instance.collection(FirestorePaths.PATH_USERS);
-    return students.add({
-      EMAIL: email,
-      NAME: name,
-      PHONE: phone,
-      IMAGE: image,
+  Future<void> addStudent(email, name, image, phone, password) async {
+    _firebaseAuth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((firebaseUser) {
+      _fromFirebaseUser(firebaseUser.user, name, phone, image);
     });
+    return;
   }
 
   Future<void> updateStudent(email, name, image, phone, studentId) async {
@@ -110,32 +97,14 @@ class UserRepository {
     return students.doc(studentId).delete();
   }
 
-  Future<void> updateUser(ModelUser.User user) async {
-    final firebaseUser = _firebaseAuth.currentUser;
-    if (firebaseUser != null) {
-      final documentReference =
-          _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
-      return documentReference.update({
-        NAME: user.name,
-        IMAGE: user.image,
-        EMAIL: user.email,
-        PHONE: user.phone,
-      });
-    }
-  }
-
   Future<void> changePassword(newPassword) async {
     final currentUser = _firebaseAuth.currentUser;
     return currentUser.updatePassword(newPassword);
   }
 
-  Future<ModelUser.User> _fromFirebaseUser(User firebaseUser,
-      {String name = "", String phone = ""}) async {
+  Future<ModelUser.User> _fromFirebaseUser(
+      User firebaseUser, String name, String phone, String image) async {
     if (firebaseUser == null) return Future.value(null);
-
-    final downloadURL = await FirebaseStorage.instance
-        .ref('images/avatar.png')
-        .getDownloadURL();
 
     final DocumentReference documentReference =
         _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
@@ -149,7 +118,7 @@ class UserRepository {
           ..email = firebaseUser.email ?? ""
           ..name = name
           ..phone = phone
-          ..image = downloadURL,
+          ..image = image,
       );
       await documentReference.set(toMap(user));
     } else {

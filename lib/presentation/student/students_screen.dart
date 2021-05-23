@@ -2,16 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:lrsadmin/models/lecturer.dart';
 import 'package:lrsadmin/models/user.dart';
 import 'package:lrsadmin/presentation/common/button.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
-import 'package:lrsadmin/presentation/lecturers/viewmodels/lecturers_view_model.dart';
 import 'package:lrsadmin/presentation/student/arguments/add_student_argument.dart';
 import 'package:lrsadmin/presentation/student/viewmodels/student_view_model.dart';
-import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
-import 'package:lrsadmin/redux/lecturer/lecturer_action.dart';
 import 'package:lrsadmin/redux/student/student_action.dart';
 import 'package:lrsadmin/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -165,7 +161,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
           children: [
             UserAvatar(
               imageUrl: "${user.image}",
-              size: 80,
+              size: 70,
             ),
             SizedBox(width: 10.0),
             Expanded(

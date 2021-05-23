@@ -9,6 +9,7 @@ import 'package:lrsadmin/presentation/faculties/add_faculty_screen.dart';
 import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
+import 'package:lrsadmin/presentation/student/add_student_screen.dart';
 import 'package:lrsadmin/presentation/student/students_screen.dart';
 import 'package:lrsadmin/redux/course/course_middlewares.dart';
 import 'package:lrsadmin/redux/faculty/faculty_middleware.dart';
@@ -165,6 +166,7 @@ class LecturersEvaluatorAdminAppState
           Routes.faculties: (context) => FacultiesScreen(),
           Routes.addFaculty: (context) => AddFacultyScreen(),
           Routes.students: (context) => StudentsScreen(),
+          Routes.addStudent: (context) => AddStudentScreen(),
         },
       ),
     );
