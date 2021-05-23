@@ -168,36 +168,38 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         _phone = value.trim();
                       },
                     ),
-                    TextFormField(
-                      initialValue: student != null ? student.phone : '',
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter default password',
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isObscured ? Ionicons.eye : Ionicons.eye_off,
-                            color: colorPrimary,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isObscured = !_isObscured;
-                            });
-                          },
-                        ),
-                      ),
-                      keyboardType: TextInputType.phone,
-                      validator: (String value) {
-                        String errorMessage;
-                        if (value.isEmpty) {
-                          errorMessage = 'Please enter default password';
-                        }
-                        return errorMessage;
-                      },
-                      onSaved: (value) {
-                        _password = value.trim();
-                      },
-                      obscureText: _isObscured,
-                    ),
+                    args == null
+                        ? TextFormField(
+                            initialValue: student != null ? student.phone : '',
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              hintText: 'Enter default password',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isObscured ? Ionicons.eye : Ionicons.eye_off,
+                                  color: colorPrimary,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscured = !_isObscured;
+                                  });
+                                },
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                            validator: (String value) {
+                              String errorMessage;
+                              if (value.isEmpty) {
+                                errorMessage = 'Please enter default password';
+                              }
+                              return errorMessage;
+                            },
+                            onSaved: (value) {
+                              _password = value.trim();
+                            },
+                            obscureText: _isObscured,
+                          )
+                        : Container(),
                     SizedBox(height: 200),
                     CustomButton(
                       buttonText:

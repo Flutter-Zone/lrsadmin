@@ -97,6 +97,20 @@ class UserRepository {
     return students.doc(studentId).delete();
   }
 
+  Future<void> updateUser(ModelUser.User user) async {
+    final firebaseUser = _firebaseAuth.currentUser;
+    if (firebaseUser != null) {
+      final documentReference =
+          _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
+      return documentReference.update({
+        NAME: user.name,
+        IMAGE: user.image,
+        EMAIL: user.email,
+        PHONE: user.phone,
+      });
+    }
+  }
+
   Future<void> changePassword(newPassword) async {
     final currentUser = _firebaseAuth.currentUser;
     return currentUser.updatePassword(newPassword);
@@ -120,6 +134,7 @@ class UserRepository {
           ..phone = phone
           ..image = image,
       );
+      print("it came here");
       await documentReference.set(toMap(user));
     } else {
       user = fromDoc(snapshot);
