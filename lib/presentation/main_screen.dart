@@ -124,7 +124,7 @@ class MainScreenState extends State<MainScreen> {
                 "News",
                 Ionicons.newspaper_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.news),
             ),
             GestureDetector(
               child: buildCardItem(
@@ -132,7 +132,7 @@ class MainScreenState extends State<MainScreen> {
                 "Reviews",
                 Ionicons.chatbox_ellipses_outline,
               ),
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed(Routes.reviews),
             ),
           ],
         ),

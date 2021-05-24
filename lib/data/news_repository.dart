@@ -44,6 +44,36 @@ class NewsRepository {
     });
   }
 
+  Future<void> addNews(title, subtitle, description, image) async {
+    CollectionReference news =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_NEWS);
+    return news.add({
+      TITLE: title,
+      SUBTITLE: subtitle,
+      DESCRIPTION: description,
+      IMAGE: image,
+      USERS: [],
+    });
+  }
+
+  Future<void> updateNews(title, subtitle, description, image, newsId) async {
+    final documentReference =
+        _firebaseFirestore.doc(FirestorePaths.newsPath(newsId));
+    return documentReference.update({
+      TITLE: title,
+      SUBTITLE: subtitle,
+      DESCRIPTION: description,
+      IMAGE: image,
+    });
+  }
+
+  Future<void> deleteNews(newsId) {
+    CollectionReference news =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_NEWS);
+
+    return news.doc(newsId).delete();
+  }
+
   static News fromDoc(DocumentSnapshot document) {
     return News(
       (r) => r

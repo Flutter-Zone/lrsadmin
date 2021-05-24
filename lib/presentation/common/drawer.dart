@@ -138,7 +138,10 @@ class DrawerBuilder extends StatelessWidget {
                 },
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.students);
+                },
                 leading: Icon(
                   Ionicons.people_outline,
                   size: 25.0,
@@ -153,6 +156,10 @@ class DrawerBuilder extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.faculties);
+                },
                 leading: Icon(
                   Ionicons.newspaper_outline,
                   size: 25.0,
@@ -168,6 +175,10 @@ class DrawerBuilder extends StatelessWidget {
               ),
               Divider(),
               ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.reviews);
+                },
                 leading: Icon(
                   Ionicons.chatbox_ellipses_outline,
                   size: 25.0,
@@ -182,6 +193,10 @@ class DrawerBuilder extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.comments);
+                },
                 leading: Icon(
                   Ionicons.chatbubble_ellipses_outline,
                   size: 25.0,

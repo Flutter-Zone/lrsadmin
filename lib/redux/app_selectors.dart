@@ -15,6 +15,10 @@ Course getCourse(List<Course> courses, String courseId) {
       orElse: () => null);
 }
 
+News getNews(List<News> newss, String newsId) {
+  return newss.firstWhere((news) => news.uid == newsId, orElse: () => null);
+}
+
 Question getQuestion(List<Question> questions, String questionId) {
   return questions.firstWhere((question) => question.uid == questionId,
       orElse: () => null);
