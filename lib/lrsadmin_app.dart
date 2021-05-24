@@ -3,22 +3,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:lrsadmin/presentation/auth/login_screen.dart';
-import 'package:lrsadmin/presentation/comments/comments_screen.dart';
-import 'package:lrsadmin/presentation/courses/add_course_screen.dart';
-import 'package:lrsadmin/presentation/faculties/add_faculty_screen.dart';
-import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
-import 'package:lrsadmin/presentation/lecturers/add_lecturer_screen.dart';
-import 'package:lrsadmin/presentation/lecturers/lecturers_screen.dart';
-import 'package:lrsadmin/presentation/news/add_news_screen.dart';
-import 'package:lrsadmin/presentation/news/news_screen.dart';
-import 'package:lrsadmin/presentation/reviews/reviews_screen.dart';
-import 'package:lrsadmin/presentation/student/add_student_screen.dart';
-import 'package:lrsadmin/presentation/student/students_screen.dart';
-import 'package:lrsadmin/redux/course/course_middlewares.dart';
-import 'package:lrsadmin/redux/faculty/faculty_middleware.dart';
-import 'package:lrsadmin/redux/student/student_middleware.dart';
+import 'package:lrsadmin/presentation/question/add_question_screen.dart';
+import 'package:lrsadmin/presentation/question/questions_screen.dart';
 import 'package:redux/redux.dart';
+
+import './presentation/auth/login_screen.dart';
+import './presentation/comments/comments_screen.dart';
+import './presentation/courses/add_course_screen.dart';
+import './presentation/faculties/add_faculty_screen.dart';
+import './presentation/faculties/faculties_screen.dart';
+import './presentation/lecturers/add_lecturer_screen.dart';
+import './presentation/lecturers/lecturers_screen.dart';
+import './presentation/news/add_news_screen.dart';
+import './presentation/news/news_screen.dart';
+import './presentation/reviews/reviews_screen.dart';
+import './presentation/student/add_student_screen.dart';
+import './presentation/student/students_screen.dart';
+import './redux/course/course_middlewares.dart';
+import './redux/faculty/faculty_middleware.dart';
+import './redux/question/question_middlewares.dart';
+import './redux/student/student_middleware.dart';
 import './data/comment_repository.dart';
 import './data/news_repository.dart';
 import './data/review_repository.dart';
@@ -40,7 +44,6 @@ import './redux/lecturer/lecturer_middleware.dart';
 import './data/file_repository.dart';
 import './redux/attachment/attachment_middlewares.dart';
 import './redux/attachment/image_processor.dart';
-
 import './data/lecturer_course_repository.dart';
 import './data/course_repository.dart';
 import './data/question_repository.dart';
@@ -143,6 +146,11 @@ class LecturersEvaluatorAdminAppState
             fileRepository,
             imageProcessor,
           ),
+        )
+        ..addAll(
+          createQuestionMiddleware(
+            questionRepository,
+          ),
         ),
     );
 
@@ -176,6 +184,8 @@ class LecturersEvaluatorAdminAppState
           Routes.addNews: (context) => AddNewsScreen(),
           Routes.reviews: (context) => ReviewsScreen(),
           Routes.comments: (context) => CommentsScreen(),
+          Routes.questions: (context) => QuestionsScreen(),
+          Routes.addQuestion: (context) => AddQuestionScreen(),
         },
       ),
     );

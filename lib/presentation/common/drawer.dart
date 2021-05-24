@@ -34,7 +34,7 @@ class DrawerBuilder extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(45.0),
                                   border: Border.all(
                                     width: 2,
-                                    color: Theme.of(context).primaryColor,
+                                    color: colorPrimary,
                                   ),
                                 ),
                                 child: Center(
@@ -109,7 +109,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.people_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "Lecturers",
@@ -127,7 +127,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.book_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "Courses",
@@ -141,7 +141,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.home_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "Faculties",
@@ -163,7 +163,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.people_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "Students",
@@ -181,7 +181,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.newspaper_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "News",
@@ -200,7 +200,7 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.chatbox_ellipses_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "Reviews",
@@ -218,10 +218,28 @@ class DrawerBuilder extends StatelessWidget {
                 leading: Icon(
                   Ionicons.chatbubble_ellipses_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: colorPrimary,
                 ),
                 title: Text(
                   "News Comments",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.questions);
+                },
+                leading: Icon(
+                  Ionicons.chatbubble_ellipses_outline,
+                  size: 25.0,
+                  color: colorPrimary,
+                ),
+                title: Text(
+                  "Questions",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,

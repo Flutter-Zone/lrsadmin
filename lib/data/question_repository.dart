@@ -20,6 +20,29 @@ class QuestionRepository {
     });
   }
 
+  Future<void> addQuestion(question) async {
+    CollectionReference questions =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_QUESTIONS);
+    return questions.add({
+      QUESTION: question,
+    });
+  }
+
+  Future<void> updateQuestion(question, questionId) async {
+    final documentReference =
+        _firebaseFirestore.doc(FirestorePaths.questionPath(questionId));
+    return documentReference.update({
+      QUESTION: question,
+    });
+  }
+
+  Future<void> deleteQuestion(questionId) {
+    CollectionReference questions =
+        FirebaseFirestore.instance.collection(FirestorePaths.PATH_QUESTIONS);
+
+    return questions.doc(questionId).delete();
+  }
+
   static Question fromDoc(DocumentSnapshot document) {
     return Question(
       (r) => r

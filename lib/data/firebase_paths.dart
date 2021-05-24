@@ -36,4 +36,8 @@ class FirestorePaths {
   static String facultyPath(String facultyId) {
     return "$PATH_FACULTIES/$facultyId";
   }
+
+  static String questionPath(String questionId) {
+    return "$PATH_QUESTIONS/$questionId";
+  }
 }
