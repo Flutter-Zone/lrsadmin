@@ -13,7 +13,5 @@ class Routes {
   static const String news = "/news";
   static const String addNews = "/addNews";
   static const String reviews = "/reviews";
-  static const String editReview = "/editReview";
   static const String comments = "/comments";
-  static const String editComment = "/editComment";
 }

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lrsadmin/constants/colors.dart';
+import 'package:lrsadmin/presentation/drawer_view_model.dart';
+import 'package:lrsadmin/redux/app_state.dart';
+import 'package:lrsadmin/redux/auth/auth_actions.dart';
 import 'package:lrsadmin/routes.dart';
+
+import 'dialogues.dart';
 
 class DrawerBuilder extends StatelessWidget {
   @override
@@ -8,78 +15,89 @@ class DrawerBuilder extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          DrawerHeader(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: 15.0),
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
-                        border: Border.all(
-                          width: 2,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Container(
-                          height: 90.0,
-                          width: 90.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(45.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
+          StoreConnector(
+            builder: (ctx, vm) {
+              return vm.user != null
+                  ? DrawerHeader(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            "Administrator",
-                            style: TextStyle(
-                                fontSize: 16.0, fontWeight: FontWeight.normal),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 15.0),
+                                height: 90,
+                                width: 90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(45.0),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    height: 80.0,
+                                    width: 80.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      image: DecorationImage(
+                                        image: NetworkImage(vm.user.image),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 12.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Administrator",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    SizedBox(
+                                      height: 3.0,
+                                    ),
+                                    Container(
+                                      height: 40.0,
+                                      width: 155.0,
+                                      child: Text(
+                                        "${vm.user.name}",
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            height: 3.0,
+                            height: 10.0,
                           ),
-                          // userStore != null
-                          //     ?
-                          Container(
-                            height: 40.0,
-                            width: 155.0,
-                            child: Text(
-                              "Blankson Richmond",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.normal,
-                              ),
+                          Text(
+                            "${vm.user.email}",
+                            style: TextStyle(
+                              fontSize: 16.0,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "admin@wetreats.com",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              ],
-            ),
+                    )
+                  : Container();
+            },
+            converter: DrawerViewModel.fromStore,
+            distinct: true,
           ),
           Column(
             children: <Widget>[
@@ -213,19 +231,21 @@ class DrawerBuilder extends StatelessWidget {
               Divider(),
               ListTile(
                 onTap: () {
-                  // Navigator.of(context).pushReplacementNamed('/login_page');
-                  // model.logout();
+                  final logout = LogOutAction();
+                  StoreProvider.of<AppState>(context).dispatch(logout);
+                  showLoadingDialog(context);
                 },
                 leading: Icon(
                   Ionicons.log_out_outline,
                   size: 25.0,
-                  color: Theme.of(context).primaryColor,
+                  color: red,
                 ),
                 title: Text(
                   "Logout",
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
+                    color: red,
                   ),
                 ),
               ),

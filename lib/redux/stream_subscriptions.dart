@@ -1,4 +1,6 @@
 import "dart:async";
+import 'package:lrsadmin/models/comment.dart';
+
 import '../models/faculty.dart';
 import '../models/news.dart';
 import '../models/review.dart';
@@ -16,6 +18,7 @@ StreamSubscription<List<Review>> reviewsSubscription;
 StreamSubscription<Course> courseSubscription;
 StreamSubscription<List<User>> usersSubscription;
 StreamSubscription<List<News>> newsSubscription;
+StreamSubscription<List<Comment>> commentsSubscription;
 StreamSubscription<List<Question>> questionsSubscription;
 StreamSubscription<List<Course>> coursesSubscription;
 
@@ -28,6 +31,7 @@ cancelAllSubscriptions() {
   courseSubscription?.cancel();
   usersSubscription?.cancel();
   newsSubscription?.cancel();
+  commentsSubscription?.cancel();
   questionsSubscription?.cancel();
   coursesSubscription?.cancel();
 }

@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:lrsadmin/presentation/auth/login_screen.dart';
+import 'package:lrsadmin/presentation/comments/comments_screen.dart';
 import 'package:lrsadmin/presentation/courses/add_course_screen.dart';
 import 'package:lrsadmin/presentation/faculties/add_faculty_screen.dart';
 import 'package:lrsadmin/presentation/faculties/faculties_screen.dart';
@@ -85,6 +86,7 @@ class LecturersEvaluatorAdminAppState
         userRepository,
         questionRepository,
         courseRepository,
+        commentRepository,
       )
         ..addAll(
           createAttachmentMiddleware(
@@ -172,7 +174,8 @@ class LecturersEvaluatorAdminAppState
           Routes.addStudent: (context) => AddStudentScreen(),
           Routes.news: (context) => NewsScreen(),
           Routes.addNews: (context) => AddNewsScreen(),
-          Routes.reviews: (context) => ReviewsScreen()
+          Routes.reviews: (context) => ReviewsScreen(),
+          Routes.comments: (context) => CommentsScreen(),
         },
       ),
     );

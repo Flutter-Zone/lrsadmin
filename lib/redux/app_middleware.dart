@@ -1,5 +1,8 @@
+import 'package:lrsadmin/data/comment_repository.dart';
 import 'package:lrsadmin/data/course_repository.dart';
+import 'package:lrsadmin/models/comment.dart';
 import 'package:lrsadmin/models/course.dart';
+import 'package:lrsadmin/redux/comment/comment_actions.dart';
 import 'package:redux/redux.dart';
 
 import '../data/news_repository.dart';
@@ -27,6 +30,7 @@ List<Middleware<AppState>> createStoreMiddleware(
   UserRepository userRepository,
   QuestionRepository questionRepository,
   CourseRepository courseRepository,
+  CommentRepository commentRepository,
 ) {
   return [
     TypedMiddleware<AppState, ConnectToDataSource>(
@@ -38,6 +42,7 @@ List<Middleware<AppState>> createStoreMiddleware(
         userRepository,
         questionRepository,
         courseRepository,
+        commentRepository,
       ),
     ),
   ];
@@ -55,6 +60,7 @@ void Function(
   UserRepository userRepository,
   QuestionRepository questionRepository,
   CourseRepository courseRepository,
+  CommentRepository commentRepository,
 ) {
   return (store, action, next) async {
     next(action);
@@ -88,6 +94,13 @@ void Function(
       newsSubscription =
           newsRepository.getNewsStream().listen((List<News> news) {
         store.dispatch(OnNewsLoaded(news));
+      });
+
+      commentsSubscription?.cancel();
+      commentsSubscription = commentRepository
+          .getCommentsStream()
+          .listen((List<Comment> comments) {
+        store.dispatch(OnNewsCommentLoaded(comments));
       });
 
       // fetch all reviews and list to the stream for changes, assign stream to reviewssubscription

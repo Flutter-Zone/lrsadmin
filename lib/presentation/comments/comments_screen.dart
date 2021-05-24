@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
-import '../../constants/colors.dart';
-import '../../presentation/common/not_found.dart';
-import '../../redux/app_selectors.dart';
-import '../../redux/app_state.dart';
+import 'package:lrsadmin/constants/colors.dart';
+import 'package:lrsadmin/presentation/common/not_found.dart';
+import 'package:lrsadmin/redux/app_selectors.dart';
+import 'package:lrsadmin/redux/app_state.dart';
 
-import 'view_model/review_view_model.dart';
-import 'widgets/review_container.dart';
+import 'comment/comment_view_model.dart';
+import 'widgets/comment_container.dart';
 
-class ReviewsScreen extends StatefulWidget {
-  const ReviewsScreen({Key key}) : super(key: key);
+class CommentsScreen extends StatefulWidget {
+  const CommentsScreen({Key key}) : super(key: key);
   @override
-  ReviewsScreenState createState() => ReviewsScreenState();
+  CommentsScreenState createState() => CommentsScreenState();
 }
 
-class ReviewsScreenState extends State<ReviewsScreen> {
+class CommentsScreenState extends State<CommentsScreen> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ReviewViewModel>(
+    return StoreConnector<AppState, CommentViewModel>(
       builder: (context, vm) {
         return Scaffold(
           key: _globalKey,
@@ -28,29 +28,25 @@ class ReviewsScreenState extends State<ReviewsScreen> {
           body: _buildScaffoldBody(vm),
         );
       },
-      converter: ReviewViewModel.fromStore,
+      converter: CommentViewModel.fromStore,
       distinct: true,
     );
   }
 
-  Widget _buildScaffoldBody(ReviewViewModel vm) {
-    return vm.reviews.length <= 0
+  Widget _buildScaffoldBody(CommentViewModel vm) {
+    return vm.comments.length <= 0
         ? NotFound(
-            info: "Sorry!, we couldn't find any reviews.",
+            info: "Sorry!, we couldn't find any comments.",
           )
         : ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 16.0),
-            itemCount: vm.reviews.length,
+            itemCount: vm.comments.length,
             itemBuilder: (BuildContext context, int index) {
-              final theReviewUser =
-                  getUser(vm.users.toList(), vm.reviews[index].userId);
-              return ReviewContainer(
-                review: vm.reviews[index],
-                user: theReviewUser,
-                course: getCourse(
-                  vm.courses.toList(),
-                  vm.reviews[index].courseId,
-                ),
+              final theCommentUser =
+                  getUser(vm.users.toList(), vm.comments[index].userId);
+              return CommentContainer(
+                comment: vm.comments[index],
+                user: theCommentUser,
                 globalKey: _globalKey,
               );
             },
@@ -65,8 +61,11 @@ class ReviewsScreenState extends State<ReviewsScreen> {
       backgroundColor: white,
       elevation: 0.5,
       title: Text(
-        "Reviews",
-        style: TextStyle(color: black),
+        "Comments",
+        style: TextStyle(
+          color: black,
+          fontSize: 20.0,
+        ),
       ),
       iconTheme: IconThemeData(color: black),
       leading: IconButton(
