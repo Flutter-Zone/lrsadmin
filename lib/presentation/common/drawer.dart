@@ -158,7 +158,7 @@ class DrawerBuilder extends StatelessWidget {
               ListTile(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed(Routes.faculties);
+                  Navigator.of(context).pushNamed(Routes.news);
                 },
                 leading: Icon(
                   Ionicons.newspaper_outline,
