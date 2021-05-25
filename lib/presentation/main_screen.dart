@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
+import 'package:lrsadmin/models/menuitem.dart';
 import 'package:lrsadmin/redux/app_state.dart';
 import 'package:lrsadmin/routes.dart';
 import 'common/drawer.dart';
@@ -11,6 +12,10 @@ class MainScreen extends StatefulWidget {
   @override
   MainScreenState createState() => MainScreenState();
 }
+
+List<MenuItem> menuItems = [
+  MenuItem(title: "Generate Reports", iconData: Ionicons.file_tray),
+];
 
 class MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -31,6 +36,40 @@ class MainScreenState extends State<MainScreen> {
                 style: TextStyle(color: Colors.black),
               ),
               centerTitle: true,
+              actions: [
+                PopupMenuButton(
+                  elevation: 3.2,
+                  onSelected: (MenuItem menuItem) async {
+                    // bool granted = await PermissionsService()
+                    //     .requestStoragePermission(onPermissionDenied: () {
+                    //   print("Permission has been denied");
+                    // });
+                    // if (granted) {
+                    if (menuItem.title == "Generate Reports") {
+                      Navigator.of(context).pushNamed(Routes.generateReport);
+                    }
+                    // }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return menuItems.map((MenuItem menuItem) {
+                      return PopupMenuItem(
+                        value: menuItem,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(0.0),
+                          leading: Icon(
+                            menuItem.iconData,
+                            color: Colors.black,
+                          ),
+                          title: Text(
+                            menuItem.title,
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      );
+                    }).toList();
+                  },
+                )
+              ],
             ),
             body: _buildHomeDashboard(vm),
             drawer: DrawerBuilder(),

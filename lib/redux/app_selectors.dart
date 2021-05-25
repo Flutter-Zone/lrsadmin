@@ -1,3 +1,5 @@
+import 'package:lrsadmin/models/comment.dart';
+
 import '../models/course.dart';
 import '../models/faculty.dart';
 import '../models/lecturer.dart';
@@ -38,6 +40,67 @@ bool isAlreadyCommented(List<Review> reviews, String courseId, String userId) {
 Faculty getFaculty(List<Faculty> faculties, String facultyId) {
   return faculties.firstWhere((faculty) => faculty.uid == facultyId,
       orElse: () => null);
+}
+
+List<Review> filterReviews(
+    List<Review> reviews, String theStartDate, String theEndDate) {
+  DateTime startDate = DateTime.parse(theStartDate);
+  DateTime endDate = DateTime.parse(theEndDate);
+  List<Review> filteredReviews = [];
+
+  reviews.forEach((Review review) {
+    if ((review.createdAt.toDate().isAfter(startDate) &&
+            review.createdAt.toDate().isBefore(endDate)) ||
+        review.createdAt.toDate().isAtSameMomentAs(startDate) ||
+        review.createdAt.toDate().isAtSameMomentAs(endDate)) {
+      filteredReviews.add(review);
+    }
+  });
+  return filteredReviews;
+}
+
+List<Review> getStudentReviews(List<Review> reviews, String theStartDate,
+    String theEndDate, String studentId) {
+  List<Review> filteredReviews =
+      filterReviews(reviews, theStartDate, theEndDate);
+  return filteredReviews
+      .where((Review review) => review.userId == studentId)
+      .toList();
+}
+
+List<Review> getLecturerReviews(List<Review> reviews, String theStartDate,
+    String theEndDate, String lecturerId) {
+  List<Review> filteredReviews =
+      filterReviews(reviews, theStartDate, theEndDate);
+  return filteredReviews
+      .where((Review review) => review.lecturerId == lecturerId)
+      .toList();
+}
+
+List<Comment> getStudentComments(List<Comment> comments, String theStartDate,
+    String theEndDate, String studentId) {
+  List<Comment> filteredComments =
+      filterComments(comments, theStartDate, theEndDate);
+  return filteredComments
+      .where((Comment comment) => comment.userId == studentId)
+      .toList();
+}
+
+List<Comment> filterComments(
+    List<Comment> comments, String theStartDate, String theEndDate) {
+  DateTime startDate = DateTime.parse(theStartDate);
+  DateTime endDate = DateTime.parse(theEndDate);
+  List<Comment> filteredComments = [];
+
+  comments.forEach((Comment comment) {
+    if ((comment.createdAt.toDate().isAfter(startDate) &&
+            comment.createdAt.toDate().isBefore(endDate)) ||
+        comment.createdAt.toDate().isAtSameMomentAs(startDate) ||
+        comment.createdAt.toDate().isAtSameMomentAs(endDate)) {
+      filteredComments.add(comment);
+    }
+  });
+  return filteredComments;
 }
 
 List<Lecturer> filterLecturer(List<Lecturer> lecturers, String facultyId) {

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:lrsadmin/presentation/common/generate_report_page.dart';
 import 'package:lrsadmin/presentation/question/add_question_screen.dart';
 import 'package:lrsadmin/presentation/question/questions_screen.dart';
 import 'package:redux/redux.dart';
@@ -186,6 +187,7 @@ class LecturersEvaluatorAdminAppState
           Routes.comments: (context) => CommentsScreen(),
           Routes.questions: (context) => QuestionsScreen(),
           Routes.addQuestion: (context) => AddQuestionScreen(),
+          Routes.generateReport: (context) => GenerateReportPage(),
         },
       ),
     );

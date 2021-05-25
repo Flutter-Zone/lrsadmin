@@ -16,4 +16,5 @@ class Routes {
   static const String comments = "/comments";
   static const String questions = "/questions";
   static const String addQuestion = "/addQuestion";
+  static const String generateReport = "/generateReport";
 }
