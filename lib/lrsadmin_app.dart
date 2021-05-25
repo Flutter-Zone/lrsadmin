@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:lrsadmin/presentation/assign_course_to_lecturer_screen.dart';
 import 'package:lrsadmin/presentation/common/generate_report_page.dart';
 import 'package:lrsadmin/presentation/password/forgot_password_screen.dart';
 import 'package:lrsadmin/presentation/password/password_reset_email_screen.dart';
@@ -191,7 +192,9 @@ class LecturersEvaluatorAdminAppState
           Routes.addQuestion: (context) => AddQuestionScreen(),
           Routes.generateReport: (context) => GenerateReportPage(),
           Routes.forgotPassword: (context) => ForgotPasswordScreen(),
-          Routes.passwordResetEmail: (context) => PasswordResetEmailScreen()
+          Routes.passwordResetEmail: (context) => PasswordResetEmailScreen(),
+          Routes.assignCourseToLecturer: (context) =>
+              AssignCoursesToLecturerScreen()
         },
       ),
     );

@@ -39,6 +39,22 @@ class AddLecturer {
   }) : completer = completer ?? Completer();
 }
 
+class AddLecturerCourse {
+  final String courseId;
+  final String lecturerId;
+  final String time;
+  final String day;
+  final Completer completer;
+
+  AddLecturerCourse({
+    this.courseId,
+    this.lecturerId,
+    this.time,
+    this.day,
+    Completer completer,
+  }) : completer = completer ?? Completer();
+}
+
 class UpdateLecturer {
   final File file;
   final String email;

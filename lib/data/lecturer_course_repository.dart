@@ -27,6 +27,17 @@ class LecturerCourseRepository {
     );
   }
 
+  Future<void> addLecturerCourse(courseId, lecturerId, day, time) async {
+    CollectionReference lecturerCourses = FirebaseFirestore.instance
+        .collection(FirestorePaths.PATH_LECTURER_COURSES);
+    return lecturerCourses.add({
+      COURSE_ID: courseId,
+      LECTURER_ID: lecturerId,
+      DAY: day,
+      TIME: time,
+    });
+  }
+
   Future<void> deleteLecturerCourse(courseId) {
     final courses = FirebaseFirestore.instance
         .collection(FirestorePaths.PATH_LECTURER_COURSES)

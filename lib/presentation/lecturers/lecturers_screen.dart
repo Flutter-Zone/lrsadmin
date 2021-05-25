@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/models/lecturer.dart';
+import 'package:lrsadmin/presentation/assign_course_to_lecturer_argument.dart';
 import 'package:lrsadmin/presentation/common/button.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
 import 'package:lrsadmin/presentation/common/search_lecturers.dart';
@@ -157,6 +158,20 @@ class _LecturersScreenState extends State<LecturersScreen> {
               Navigator.of(context).pop();
               showNoContextToast(errorToastColor, message);
             });
+          },
+        ),
+        ListTile(
+          title: Text('Assing courses'),
+          leading: Icon(Ionicons.book_outline),
+          onTap: () async {
+            Navigator.of(context).pop();
+            final message = await Navigator.of(context).pushNamed(
+              Routes.assignCourseToLecturer,
+              arguments: AssignCourseToLecturerArgument(lecturerId),
+            );
+            if (message != null) {
+              showNoContextToast(successToastColor, message);
+            }
           },
         ),
       ],

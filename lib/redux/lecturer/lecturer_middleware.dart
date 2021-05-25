@@ -25,6 +25,8 @@ List<Middleware<AppState>> createLecturerMiddleware(
     ),
     TypedMiddleware<AppState, AddLecturer>(
         _addLecturer(lecturerRepository, repository, imageProcessor)),
+    TypedMiddleware<AppState, AddLecturerCourse>(
+        _addLecturerCourse(lecturerCoursesRepository)),
     TypedMiddleware<AppState, UpdateLecturer>(
         _updateLecturer(lecturerRepository, repository, imageProcessor)),
     TypedMiddleware<AppState, DeleteLecturer>(
@@ -94,6 +96,33 @@ void Function(
       action.completer.completeError("Oops! Failed to add lecturer");
     } catch (error) {
       action.completer.completeError("Oops! Failed to add lecturer");
+    }
+  };
+}
+
+void Function(
+  Store<AppState> store,
+  AddLecturerCourse action,
+  NextDispatcher next,
+) _addLecturerCourse(
+  LecturerCourseRepository lecturerCourseRepository,
+) {
+  return (store, action, next) async {
+    next(action);
+
+    try {
+      await lecturerCourseRepository.addLecturerCourse(
+        action.courseId,
+        action.lecturerId,
+        action.day,
+        action.time,
+      );
+
+      action.completer.complete("Course assigned to lecturer successfully!");
+    } on FirebaseException {
+      action.completer.completeError("Oops! Failed to assign course");
+    } catch (error) {
+      action.completer.completeError("Oops! Failed to assign course");
     }
   };
 }
