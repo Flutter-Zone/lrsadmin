@@ -3,6 +3,7 @@ library courses_view_model;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:lrsadmin/models/course.dart';
+import 'package:lrsadmin/models/lecturer_course.dart';
 import 'package:lrsadmin/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -12,6 +13,7 @@ abstract class CoursesViewModel
     implements Built<CoursesViewModel, CoursesViewModelBuilder> {
   // fields go here
   BuiltList<Course> get courses;
+  BuiltList<LecturerCourse> get lecturerCourses;
 
   CoursesViewModel._();
 
@@ -19,7 +21,8 @@ abstract class CoursesViewModel
       _$CoursesViewModel;
 
   static CoursesViewModel fromStore(Store<AppState> store) {
-    return CoursesViewModel(
-        (c) => c..courses = ListBuilder(store.state.courses));
+    return CoursesViewModel((c) => c
+      ..courses = ListBuilder(store.state.courses)
+      ..lecturerCourses = ListBuilder(store.state.lecturerCourses));
   }
 }

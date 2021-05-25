@@ -1,4 +1,5 @@
 import 'package:lrsadmin/models/comment.dart';
+import 'package:lrsadmin/models/lecturer_course.dart';
 
 import '../models/course.dart';
 import '../models/faculty.dart';
@@ -27,9 +28,21 @@ Question getQuestion(List<Question> questions, String questionId) {
 }
 
 bool isAlreadyCommented(List<Review> reviews, String courseId, String userId) {
-  print("checking values: $reviews, $courseId , $userId");
   final result = reviews.firstWhere(
       (review) => review.courseId == courseId && review.userId == userId,
+      orElse: () => null);
+  if (result == null) {
+    return false;
+  }
+  return true;
+}
+
+bool isAlreadyAssigned(
+    List<LecturerCourse> lecturerCourses, String courseId, String lecturerId) {
+  final result = lecturerCourses.firstWhere(
+      (lecturerCourse) =>
+          lecturerCourse.courseId == courseId &&
+          lecturerCourse.lecturerId == lecturerId,
       orElse: () => null);
   if (result == null) {
     return false;

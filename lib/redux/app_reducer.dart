@@ -16,6 +16,7 @@ final appReducer = combineReducers<AppState>([
   TypedReducer<AppState, OnUsersLoaded>(_onUsersLoaded),
   TypedReducer<AppState, OnQuestionsLoaded>(_onQuestionsLoaded),
   TypedReducer<AppState, OnCoursesLoaded>(_onCoursesLoaded),
+  TypedReducer<AppState, OnLecturerCoursesLoaded>(_onLecturerCoursesLoaded),
   ...lecturerReducers,
   ...authReducers,
   ...userReducers,
@@ -69,4 +70,13 @@ AppState _onCoursesLoaded(AppState state, OnCoursesLoaded action) {
     return state.rebuild((a) => a..courses = ListBuilder([]));
   }
   return state.rebuild((a) => a..courses = ListBuilder(action.courses));
+}
+
+AppState _onLecturerCoursesLoaded(
+    AppState state, OnLecturerCoursesLoaded action) {
+  if (action.lecturerCourses.isEmpty) {
+    return state.rebuild((a) => a..lecturerCourses = ListBuilder([]));
+  }
+  return state
+      .rebuild((a) => a..lecturerCourses = ListBuilder(action.lecturerCourses));
 }

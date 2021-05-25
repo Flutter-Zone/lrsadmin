@@ -27,6 +27,17 @@ class LecturerCourseRepository {
     );
   }
 
+  Stream<List<LecturerCourse>> getLecturersCoursesStream() {
+    return _firebaseFirestore
+        .collection(FirestorePaths.PATH_LECTURER_COURSES)
+        .snapshots()
+        .map((lecturersCoursesSnapshot) {
+      final lecturersCourses =
+          lecturersCoursesSnapshot.docs.map(fromDoc).toList();
+      return lecturersCourses;
+    });
+  }
+
   Future<void> addLecturerCourse(courseId, lecturerId, day, time) async {
     CollectionReference lecturerCourses = FirebaseFirestore.instance
         .collection(FirestorePaths.PATH_LECTURER_COURSES);

@@ -9,14 +9,18 @@ part of courses_view_model;
 class _$CoursesViewModel extends CoursesViewModel {
   @override
   final BuiltList<Course> courses;
+  @override
+  final BuiltList<LecturerCourse> lecturerCourses;
 
   factory _$CoursesViewModel(
           [void Function(CoursesViewModelBuilder) updates]) =>
       (new CoursesViewModelBuilder()..update(updates)).build();
 
-  _$CoursesViewModel._({this.courses}) : super._() {
+  _$CoursesViewModel._({this.courses, this.lecturerCourses}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         courses, 'CoursesViewModel', 'courses');
+    BuiltValueNullFieldError.checkNotNull(
+        lecturerCourses, 'CoursesViewModel', 'lecturerCourses');
   }
 
   @override
@@ -30,18 +34,21 @@ class _$CoursesViewModel extends CoursesViewModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is CoursesViewModel && courses == other.courses;
+    return other is CoursesViewModel &&
+        courses == other.courses &&
+        lecturerCourses == other.lecturerCourses;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, courses.hashCode));
+    return $jf($jc($jc(0, courses.hashCode), lecturerCourses.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('CoursesViewModel')
-          ..add('courses', courses))
+          ..add('courses', courses)
+          ..add('lecturerCourses', lecturerCourses))
         .toString();
   }
 }
@@ -55,12 +62,19 @@ class CoursesViewModelBuilder
       _$this._courses ??= new ListBuilder<Course>();
   set courses(ListBuilder<Course> courses) => _$this._courses = courses;
 
+  ListBuilder<LecturerCourse> _lecturerCourses;
+  ListBuilder<LecturerCourse> get lecturerCourses =>
+      _$this._lecturerCourses ??= new ListBuilder<LecturerCourse>();
+  set lecturerCourses(ListBuilder<LecturerCourse> lecturerCourses) =>
+      _$this._lecturerCourses = lecturerCourses;
+
   CoursesViewModelBuilder();
 
   CoursesViewModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _courses = $v.courses.toBuilder();
+      _lecturerCourses = $v.lecturerCourses.toBuilder();
       _$v = null;
     }
     return this;
@@ -81,12 +95,17 @@ class CoursesViewModelBuilder
   _$CoursesViewModel build() {
     _$CoursesViewModel _$result;
     try {
-      _$result = _$v ?? new _$CoursesViewModel._(courses: courses.build());
+      _$result = _$v ??
+          new _$CoursesViewModel._(
+              courses: courses.build(),
+              lecturerCourses: lecturerCourses.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'courses';
         courses.build();
+        _$failedField = 'lecturerCourses';
+        lecturerCourses.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'CoursesViewModel', _$failedField, e.toString());

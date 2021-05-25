@@ -94,6 +94,7 @@ class LecturersEvaluatorAdminAppState
         questionRepository,
         courseRepository,
         commentRepository,
+        lecturerCourseRepository,
       )
         ..addAll(
           createAttachmentMiddleware(

@@ -1,7 +1,9 @@
 import 'package:lrsadmin/data/comment_repository.dart';
 import 'package:lrsadmin/data/course_repository.dart';
+import 'package:lrsadmin/data/lecturer_course_repository.dart';
 import 'package:lrsadmin/models/comment.dart';
 import 'package:lrsadmin/models/course.dart';
+import 'package:lrsadmin/models/lecturer_course.dart';
 import 'package:lrsadmin/redux/comment/comment_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -31,6 +33,7 @@ List<Middleware<AppState>> createStoreMiddleware(
   QuestionRepository questionRepository,
   CourseRepository courseRepository,
   CommentRepository commentRepository,
+  LecturerCourseRepository lecturerCourseRepository,
 ) {
   return [
     TypedMiddleware<AppState, ConnectToDataSource>(
@@ -43,6 +46,7 @@ List<Middleware<AppState>> createStoreMiddleware(
         questionRepository,
         courseRepository,
         commentRepository,
+        lecturerCourseRepository,
       ),
     ),
   ];
@@ -61,6 +65,7 @@ void Function(
   QuestionRepository questionRepository,
   CourseRepository courseRepository,
   CommentRepository commentRepository,
+  LecturerCourseRepository lecturerCourseRepository,
 ) {
   return (store, action, next) async {
     next(action);
@@ -121,6 +126,13 @@ void Function(
       coursesSubscription =
           courseRepository.getCoursesStream().listen((List<Course> courses) {
         store.dispatch(OnCoursesLoaded(courses));
+      });
+
+      lecturerCoursesSubscription?.cancel();
+      lecturerCoursesSubscription = lecturerCourseRepository
+          .getLecturersCoursesStream()
+          .listen((List<LecturerCourse> lecturerCourses) {
+        store.dispatch(OnLecturerCoursesLoaded(lecturerCourses));
       });
     } catch (e) {
       print("Something terrible just happened: $e");

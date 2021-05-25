@@ -14,7 +14,9 @@ List<Middleware<AppState>> createCourseMiddleware(
     TypedMiddleware<AppState, AddCourse>(_addCourse(courseRepository)),
     TypedMiddleware<AppState, UpdateCourse>(_updateCourse(courseRepository)),
     TypedMiddleware<AppState, DeleteCourse>(
-        _deleteComment(courseRepository, lecturerCourseRepository)),
+        _deleteCourse(courseRepository, lecturerCourseRepository)),
+    TypedMiddleware<AppState, DeleteLecturerCourse>(
+        _deleteLecturerCourse(lecturerCourseRepository)),
   ];
 }
 
@@ -64,7 +66,7 @@ void Function(
   Store<AppState> store,
   DeleteCourse action,
   NextDispatcher next,
-) _deleteComment(
+) _deleteCourse(
   CourseRepository courseRepository,
   LecturerCourseRepository lecturerCourseRepository,
 ) {
@@ -80,6 +82,28 @@ void Function(
     } catch (error) {
       print('something happened: $error');
       action.completer.completeError("Oops! Failed to delete course");
+    }
+  };
+}
+
+void Function(
+  Store<AppState> store,
+  DeleteLecturerCourse action,
+  NextDispatcher next,
+) _deleteLecturerCourse(
+  LecturerCourseRepository lecturerCourseRepository,
+) {
+  return (store, action, next) async {
+    next(action);
+    try {
+      await lecturerCourseRepository.deleteLecturerCourse(action.courseId);
+
+      action.completer.complete("Course unassigned successfully!");
+    } on FirebaseException {
+      action.completer.completeError("Oops! Failed to unassign course");
+    } catch (error) {
+      print('something happened: $error');
+      action.completer.completeError("Oops! Failed to unassign course");
     }
   };
 }

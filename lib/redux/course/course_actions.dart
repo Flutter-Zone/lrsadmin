@@ -37,3 +37,11 @@ class DeleteCourse {
   DeleteCourse({this.courseId, Completer completer})
       : completer = completer ?? Completer();
 }
+
+class DeleteLecturerCourse {
+  final String courseId;
+  final Completer completer;
+
+  DeleteLecturerCourse({this.courseId, Completer completer})
+      : completer = completer ?? Completer();
+}

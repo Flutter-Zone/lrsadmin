@@ -3,10 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/constants/colors.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
+import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
+import 'package:lrsadmin/redux/course/course_actions.dart';
 import 'package:lrsadmin/redux/lecturer/lecturer_action.dart';
-
-import '../routes.dart';
 import '../utils/string_extension.dart';
 import 'assign_course_to_lecturer_argument.dart';
 import 'courses/viewmodels/courses_view_model.dart';
@@ -49,6 +49,10 @@ class _AssignCoursesToLecturerScreenState
           return ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
             itemBuilder: (context, index) {
+              final isAssigned = isAlreadyAssigned(vm.lecturerCourses.toList(),
+                  vm.courses[index].uid, args.lecturerId);
+              print("the lecturer courses: ${vm.lecturerCourses.toList()}");
+              print("the courses uid: ${vm.courses[index].uid}");
               return ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(
@@ -63,14 +67,43 @@ class _AssignCoursesToLecturerScreenState
                   "${vm.courses[index].description.capitalize()}",
                   style: TextStyle(fontSize: 16.0),
                 ),
-                trailing: Text(
-                  "${vm.courses[index].creditHours}hr",
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: colorPrimary,
-                      fontWeight: FontWeight.bold),
+                trailing: Column(
+                  children: [
+                    isAssigned
+                        ? Icon(
+                            Ionicons.checkmark_outline,
+                            color: colorPrimary,
+                          )
+                        : Offstage(),
+                    Text(
+                      "${vm.courses[index].creditHours}hr",
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: black,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
                 onTap: () {
+                  if (isAssigned) {
+                    showLoadingDialog(context);
+                    final _deleteLecturerCourseAction = DeleteLecturerCourse(
+                      courseId: vm.courses[index].uid,
+                    );
+                    StoreProvider.of<AppState>(context)
+                        .dispatch(_deleteLecturerCourseAction);
+                    _deleteLecturerCourseAction.completer.future
+                        .then((message) {
+                      Navigator.of(context).pop();
+                      showNoContextToast(successToastColor, message);
+                    });
+                    _deleteLecturerCourseAction.completer.future
+                        .catchError((message) {
+                      Navigator.of(context).pop();
+                      showNoContextToast(successToastColor, message);
+                    });
+                    return;
+                  }
                   showLoadingDialog(context);
                   final addLectureCourseAction = AddLecturerCourse(
                     time: "8:30AM",
