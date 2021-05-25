@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lrsadmin/constants/regex.dart';
 import 'package:lrsadmin/models/lecturer.dart';
 import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -32,6 +33,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
   String _phone;
   PickedFile _pickedFile;
   String _selectedFaculty = "F3Tb7mibQa7sxuFulEfb";
+  String _newSelectedFaculty;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,9 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
             Lecturer lecturer;
             if (args != null) {
               lecturer = getLecturer(vm.lecturers.toList(), args.lecturerId);
-              _selectedFaculty = lecturer.facultyId;
+              if (_newSelectedFaculty == null) {
+                _selectedFaculty = lecturer.facultyId;
+              }
             }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
@@ -165,6 +169,9 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                         if (value.isEmpty) {
                           errorMessage = 'Please enter lecturer\'s phone';
                         }
+                        if (!phoneRegExp.hasMatch(value)) {
+                          errorMessage = "Invalid phone number";
+                        }
                         return errorMessage;
                       },
                       onSaved: (value) {
@@ -187,6 +194,7 @@ class _AddLecturerScreenState extends State<AddLecturerScreen> {
                       onChanged: (value) {
                         setState(() {
                           _selectedFaculty = value;
+                          _newSelectedFaculty = value;
                         });
                       },
                       isExpanded: true,

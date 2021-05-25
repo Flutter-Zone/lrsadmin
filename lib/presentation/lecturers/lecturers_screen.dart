@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/models/lecturer.dart';
 import 'package:lrsadmin/presentation/common/button.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
+import 'package:lrsadmin/presentation/common/search_lecturers.dart';
 import 'package:lrsadmin/presentation/lecturers/viewmodels/lecturers_view_model.dart';
 import 'package:lrsadmin/redux/app_selectors.dart';
 import 'package:lrsadmin/redux/app_state.dart';
@@ -27,14 +28,20 @@ class LecturersScreen extends StatefulWidget {
 class _LecturersScreenState extends State<LecturersScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      appBar: _buildAppBarWidget(),
-      body: _buildLecturersListView(),
+    return StoreConnector<AppState, LecturersViewModel>(
+      builder: (ctx, vm) {
+        return Scaffold(
+          backgroundColor: white,
+          appBar: _buildAppBarWidget(vm),
+          body: _buildLecturersListView(vm),
+        );
+      },
+      converter: LecturersViewModel.fromStore,
+      distinct: true,
     );
   }
 
-  Widget _buildAppBarWidget() {
+  Widget _buildAppBarWidget(LecturersViewModel vm) {
     String title = "Lecturers";
     return AppBar(
       backgroundColor: white,
@@ -63,11 +70,22 @@ class _LecturersScreenState extends State<LecturersScreen> {
             }
           },
         ),
+        IconButton(
+          onPressed: () {
+            showSearch(
+                context: context,
+                delegate: LecturersSearch(vm.lecturers.toList()));
+          },
+          icon: Icon(
+            Icons.search,
+            color: colorPrimary,
+          ),
+        )
       ],
     );
   }
 
-  Widget _buildLecturersListView() {
+  Widget _buildLecturersListView(LecturersViewModel vm) {
     return 1 <= 0
         ? NotFound(
             info:
@@ -77,33 +95,27 @@ class _LecturersScreenState extends State<LecturersScreen> {
               onPressedCallback: () {},
             ),
           )
-        : StoreConnector<AppState, LecturersViewModel>(
-            builder: (ctx, vm) {
-              return NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (OverscrollIndicatorNotification overscroll) {
-                  overscroll.disallowGlow();
-                  return;
-                },
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
-                  itemCount: vm.lecturers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final faculty = getFaculty(
-                        vm.faculties.toList(), vm.lecturers[index].facultyId);
-                    final rating = getAverageRating(
-                        vm.reviews.toList(), vm.lecturers[index].uid);
-                    return _buildLecturerContainer(
-                        vm.lecturers[index], faculty, rating);
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    height: 10.0,
-                    indent: 85.0,
-                  ),
-                ),
-              );
+        : NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowGlow();
+              return;
             },
-            converter: LecturersViewModel.fromStore,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+              itemCount: vm.lecturers.length,
+              itemBuilder: (BuildContext context, int index) {
+                final faculty = getFaculty(
+                    vm.faculties.toList(), vm.lecturers[index].facultyId);
+                final rating = getAverageRating(
+                    vm.reviews.toList(), vm.lecturers[index].uid);
+                return _buildLecturerContainer(
+                    vm.lecturers[index], faculty, rating);
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 10.0,
+                indent: 85.0,
+              ),
+            ),
           );
   }
 
@@ -212,7 +224,7 @@ class _LecturersScreenState extends State<LecturersScreen> {
                   color: starColor,
                 ),
                 Text(
-                  rating.isNaN ? "0.0" : "$rating",
+                  rating.isNaN ? "0.0" : "${rating.toStringAsFixed(1)}",
                   style: TextStyle(
                     fontSize: 16.0,
                   ),

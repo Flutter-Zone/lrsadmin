@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lrsadmin/models/user.dart';
 import 'package:lrsadmin/presentation/common/button.dart';
 import 'package:lrsadmin/presentation/common/dialogues.dart';
+import 'package:lrsadmin/presentation/common/search_students.dart';
 import 'package:lrsadmin/presentation/student/arguments/add_student_argument.dart';
 import 'package:lrsadmin/presentation/student/viewmodels/student_view_model.dart';
 import 'package:lrsadmin/redux/app_state.dart';
@@ -26,14 +27,20 @@ class StudentsScreen extends StatefulWidget {
 class _StudentsScreenState extends State<StudentsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      appBar: _buildAppBarWidget(),
-      body: _buildLecturersListView(),
+    return StoreConnector<AppState, StudentsViewModel>(
+      builder: (ctx, vm) {
+        return Scaffold(
+          backgroundColor: white,
+          appBar: _buildAppBarWidget(vm),
+          body: _buildLecturersListView(vm),
+        );
+      },
+      converter: StudentsViewModel.fromStore,
+      distinct: true,
     );
   }
 
-  Widget _buildAppBarWidget() {
+  Widget _buildAppBarWidget(StudentsViewModel vm) {
     String title = "Students";
     return AppBar(
       backgroundColor: white,
@@ -62,11 +69,21 @@ class _StudentsScreenState extends State<StudentsScreen> {
             }
           },
         ),
+        IconButton(
+          onPressed: () {
+            showSearch(
+                context: context, delegate: StudentsSearch(vm.users.toList()));
+          },
+          icon: Icon(
+            Icons.search,
+            color: colorPrimary,
+          ),
+        )
       ],
     );
   }
 
-  Widget _buildLecturersListView() {
+  Widget _buildLecturersListView(StudentsViewModel vm) {
     return 1 <= 0
         ? NotFound(
             info:
@@ -82,28 +99,22 @@ class _StudentsScreenState extends State<StudentsScreen> {
               },
             ),
           )
-        : StoreConnector<AppState, StudentsViewModel>(
-            builder: (ctx, vm) {
-              return NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (OverscrollIndicatorNotification overscroll) {
-                  overscroll.disallowGlow();
-                  return;
-                },
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
-                  itemCount: vm.users.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return _buildStudentContainer(vm.users[index]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    height: 10.0,
-                    indent: 85.0,
-                  ),
-                ),
-              );
+        : NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowGlow();
+              return;
             },
-            converter: StudentsViewModel.fromStore,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+              itemCount: vm.users.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildStudentContainer(vm.users[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 10.0,
+                indent: 85.0,
+              ),
+            ),
           );
   }
 

@@ -17,4 +17,5 @@ class Routes {
   static const String questions = "/questions";
   static const String addQuestion = "/addQuestion";
   static const String generateReport = "/generateReport";
+  static const String passwordResetEmail = "/resetPassword";
 }
