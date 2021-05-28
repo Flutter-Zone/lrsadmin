@@ -56,12 +56,13 @@ void Function(
       final file = await imageProcessor.cropAndResizeAvatar(action.file);
       final url = await repository.uploadFile(file);
 
-      await newsRepository.addNews(
-          action.title, action.subtitle, action.description, url);
+      await newsRepository.addNews(action.title, action.subtitle,
+          action.description, url, action.createdAt);
       action.completer.complete("News added successfully!");
     } on FirebaseException {
       action.completer.completeError("Oops! Failed to add news");
     } catch (error) {
+      print("An error occurred: $error");
       action.completer.completeError("Oops! Failed to add news");
     }
   };

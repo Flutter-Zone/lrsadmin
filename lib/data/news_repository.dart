@@ -44,7 +44,7 @@ class NewsRepository {
     });
   }
 
-  Future<void> addNews(title, subtitle, description, image) async {
+  Future<void> addNews(title, subtitle, description, image, createdAt) async {
     CollectionReference news =
         FirebaseFirestore.instance.collection(FirestorePaths.PATH_NEWS);
     return news.add({
@@ -52,6 +52,7 @@ class NewsRepository {
       SUBTITLE: subtitle,
       DESCRIPTION: description,
       IMAGE: image,
+      CREATED_AT: createdAt,
       USERS: [],
     });
   }

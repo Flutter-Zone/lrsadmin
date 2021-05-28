@@ -35,11 +35,7 @@ Future<String> generateReportPDF(context, GenerateReportViewModel vm,
   if (generateOn == "Reviews") {
     if (dataFormat == 0) {
       reviews = filterReviews(vm.reviews.toList(), startDate, endDate);
-      print("the number of reviews fetched: $reviews");
-    } else if (dataFormat == 1) {
-      // sales = model.getCompressedSales(startDate, endDate);
-      print('generating compressed data');
-    }
+    } else if (dataFormat == 1) {}
     if (startDate == endDate) {
       fileName = startDate;
       pdfTitle =

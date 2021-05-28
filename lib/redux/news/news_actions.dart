@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UpdateNewsUsers {
   final String newsId;
   List<String> users;
@@ -16,6 +18,7 @@ class AddNews {
   final String title;
   final String subtitle;
   final String description;
+  final Timestamp createdAt;
   final Completer completer;
 
   AddNews({
@@ -23,6 +26,7 @@ class AddNews {
     this.title,
     this.subtitle,
     this.description,
+    this.createdAt,
     Completer completer,
   }) : completer = completer ?? Completer();
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
@@ -242,11 +243,14 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
         return;
       }
 
+      final currentDateTime = DateTime.now();
+      final currentTimestamp = Timestamp.fromDate(currentDateTime);
       final _addNewsAction = AddNews(
         description: _description,
         title: _title,
         subtitle: _subtitle,
         file: File(_pickedFile.path),
+        createdAt: currentTimestamp,
       );
 
       StoreProvider.of<AppState>(context).dispatch(_addNewsAction);
